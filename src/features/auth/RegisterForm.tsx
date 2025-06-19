@@ -1,37 +1,37 @@
-import { useForm } from 'react-hook-form';
-import type { SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form'
+import type { SubmitHandler } from 'react-hook-form'
 
 type FormData = {
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-};
+  email: string
+  password: string
+  firstName: string
+  lastName: string
+}
 
 const Register = () => {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<FormData>();
+  } = useForm<FormData>()
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
-    console.log('Datos enviados:', data);
-  };
+    console.log('Datos enviados:', data)
+  }
 
   return (
-    <div className='min-h-screen w-full bg-gray-900 flex items-center justify-center p-4'>
-      <div className='w-full max-w-md rounded-xl bg-gray-800 p-8 shadow-xl border border-gray-700'>
-        <div className='text-center mb-10'>
+    <div className='flex min-h-screen w-full items-center justify-center bg-gray-900 p-4'>
+      <div className='w-full max-w-md rounded-xl border border-gray-700 bg-gray-800 p-8 shadow-xl'>
+        <div className='mb-10 text-center'>
           <h1 className='text-3xl font-light tracking-tight text-white'>
             Registrarse
           </h1>
-          <p className='mt-2 text-gray-400 text-sm'>
+          <p className='mt-2 text-sm text-gray-400'>
             Únete a nuestra plataforma
           </p>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} >
+        <form onSubmit={handleSubmit(onSubmit)}>
           {[
             {
               label: 'Nombre',
@@ -61,24 +61,23 @@ const Register = () => {
             <div key={id} className='space-y-1'>
               <label
                 htmlFor={id}
-                className='block text-sm font-normal text-gray-400'
-              >
+                className='block text-sm font-normal text-gray-400'>
                 {label}
               </label>
               <input
                 id={id}
                 type={type}
                 {...register(id as keyof FormData, { required })}
-                className={`w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ${
+                className={`w-full rounded-lg border border-gray-700 bg-gray-900 p-3 text-white placeholder-gray-500 transition focus:ring-1 focus:ring-blue-500 focus:outline-none ${
                   errors[id as keyof FormData] ? 'border-red-500' : ''
                 }`}
                 placeholder={`Ingresa tu ${label.toLowerCase()}`}
               />
-              
+
               {/* Contenedor de altura fija para mensajes de error */}
               <div className='h-5'>
                 {errors[id as keyof FormData] && (
-                  <p className='text-sm text-red-400 animate-fadeIn'>
+                  <p className='animate-fadeIn text-sm text-red-400'>
                     {errors[id as keyof FormData]?.message}
                   </p>
                 )}
@@ -90,12 +89,11 @@ const Register = () => {
             <button
               type='submit'
               disabled={isSubmitting}
-              className={`w-full py-3 px-4 rounded-lg text-white font-medium transition ${
+              className={`w-full rounded-lg px-4 py-3 font-medium text-white transition ${
                 isSubmitting
-                  ? 'bg-gray-700 cursor-not-allowed'
+                  ? 'cursor-not-allowed bg-gray-700'
                   : 'bg-blue-600 hover:bg-blue-700'
-              }`}
-            >
+              }`}>
               {isSubmitting ? 'Creando cuenta...' : 'Registrarse'}
             </button>
           </div>
@@ -106,15 +104,14 @@ const Register = () => {
             ¿Ya tienes cuenta?{' '}
             <a
               href='#'
-              className='text-blue-400 hover:text-blue-300 transition'
-            >
+              className='text-blue-400 transition hover:text-blue-300'>
               Inicia sesión
-            </a>
+            </a>{' '}
           </p>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Register;
+export default Register
