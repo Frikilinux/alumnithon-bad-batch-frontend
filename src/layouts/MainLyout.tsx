@@ -1,25 +1,20 @@
-import { useState } from 'react'
 import { Outlet } from 'react-router'
+import Header from './Header'
 
 const MainLayout = () => {
-  const [isloggedIn, setIsLoggedIn] = useState(false)
   return (
-    <>
-      <header className='flex h-18 w-full items-center justify-between bg-blue-300 p-4'>
-        <div>Logo</div>
-        <div>menu</div>
-        <div onClick={() => setIsLoggedIn(!isloggedIn)}>
-          {!isloggedIn ? (
-            <button className='rounded-md bg-green-400 px-4 py-2 text-xl font-semibold hover:cursor-pointer'>
-              Login
-            </button>
-          ) : (
-            <div className='aspect-square h-14 w-auto rounded-full bg-slate-600'></div>
-          )}
-        </div>
-      </header>
-      <Outlet />
-    </>
+    <div className='relative flex min-h-screen w-full flex-col'>
+      <div className='absolute top-0 z-[-2] h-screen w-screen bg-white bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]'></div>
+      <Header />
+      <main className='flex grow flex-col'>
+        <Outlet />
+      </main>
+      <footer className='bg-gray-800 py-4 text-center text-white'>
+        <p className='text-sm'>
+          © 2025 SkillLink. Todos los derechos reservados.
+        </p>
+      </footer>
+    </div>
   )
 }
 
