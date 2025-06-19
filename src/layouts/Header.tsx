@@ -26,17 +26,17 @@ const NavBar = () => {
   )
 }
 
-const Search = () => {
-  return (
-    <div className='flex items-center'>
-      <input
-        type='text'
-        placeholder='Search...'
-        className='rounded-md border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none'
-      />
-    </div>
-  )
-}
+// const Search = () => {
+//   return (
+//     <div className='flex items-center'>
+//       <input
+//         type='text'
+//         placeholder='Search...'
+//         className='rounded-md border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none'
+//       />
+//     </div>
+//   )
+// }
 
 const Logo = () => {
   return (
@@ -70,7 +70,7 @@ const UserButton = () => {
 }
 
 const Header = () => {
-  const [isloggedIn, setIsLoggedIn] = useState(false)
+  // const [isloggedIn, setIsLoggedIn] = useState(false)
   return (
     <header className='text-primary-foreground bg-primary-background sticky top-0 z-1 grid w-full grid-cols-2 items-center p-4 shadow-md shadow-slate-950/50 md:grid-cols-3'>
       <Logo />
