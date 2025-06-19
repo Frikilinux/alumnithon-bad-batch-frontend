@@ -42,7 +42,7 @@ const Logo = () => {
   return (
     <div className='flex items-center gap-2 text-2xl font-bold'>
       <IconCode className='size-8' />
-      <span className='hidden tracking-wide md:block'>SkillNavLink</span>
+      <span className='hidden tracking-wide md:block'>SkillLink</span>
     </div>
   )
 }
