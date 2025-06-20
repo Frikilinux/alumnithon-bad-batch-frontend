@@ -96,15 +96,13 @@ const Register = () => {
           </div>
         </form>
 
-        <div className='mt-8 text-center text-sm text-gray-500'>
-          <p>
-            ¿Ya tienes cuenta?{' '}
-            <a
-              href='#'
-              className='text-blue-400 transition hover:text-blue-300'>
-              Inicia sesión
-            </a>
-          </p>
+        <div className='mt-8 flex justify-center gap-2 text-sm text-gray-500'>
+          <p>¿Ya tienes cuenta?</p>
+          <Link
+            to='/login'
+            className='text-blue-400 transition hover:text-blue-300'>
+            Inicia sesión
+          </Link>
         </div>
       </div>
     </div>
