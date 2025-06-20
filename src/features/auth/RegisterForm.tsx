@@ -1,17 +1,36 @@
-import { useForm } from 'react-hook-form'
-import type { SubmitHandler } from 'react-hook-form'
-import { FormInput } from '../../components/form/FormInput'
+import { useForm, type SubmitHandler } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import type { InputTypes } from '../../types/form'
+
+import FormField from './components/FormField'
+import {
+  RegisterSchema,
+  type RegisterSchemaType,
+} from './schemas/registerSchema'
 import { Button } from '../../components/ui/Button'
-import type { RegisterData } from '../../types/FormTypes'
+import { Link } from 'react-router-dom'
+
+const formFields: {
+  label: string
+  id: keyof RegisterSchemaType
+  type: InputTypes
+}[] = [
+  { label: 'Nombre', id: 'firstName', type: 'text' },
+  { label: 'Apellido', id: 'lastName', type: 'text' },
+  { label: 'Correo electrónico', id: 'email', type: 'email' },
+  { label: 'Contraseña', id: 'password', type: 'password' },
+]
 
 const Register = () => {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<RegisterData>()
+  } = useForm<RegisterSchemaType>({
+    resolver: zodResolver(RegisterSchema),
+  })
 
-  const onSubmit: SubmitHandler<RegisterData> = async (data) => {
+  const onSubmit: SubmitHandler<RegisterSchemaType> = async (data) => {
     try {
       console.log('Datos enviados:', data)
       await new Promise((res) => setTimeout(res, 1000)) // Simula espera
@@ -20,49 +39,6 @@ const Register = () => {
       console.error('Error al registrar:', error)
     }
   }
-
-  const fields = [
-    {
-      label: 'Nombre',
-      id: 'firstName',
-      type: 'text',
-      validations: {
-        required: 'El nombre es obligatorio',
-      },
-    },
-    {
-      label: 'Apellido',
-      id: 'lastName',
-      type: 'text',
-      validations: {
-        required: 'El apellido es obligatorio',
-      },
-    },
-    {
-      label: 'Correo electrónico',
-      id: 'email',
-      type: 'email',
-      validations: {
-        required: 'El correo es obligatorio',
-        pattern: {
-          value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
-          message: 'Correo no válido',
-        },
-      },
-    },
-    {
-      label: 'Contraseña',
-      id: 'password',
-      type: 'password',
-      validations: {
-        required: 'La contraseña es obligatoria',
-        minLength: {
-          value: 6,
-          message: 'Debe tener al menos 6 caracteres',
-        },
-      },
-    },
-  ] as const
 
   return (
     <div className='flex min-h-screen w-full items-center justify-center bg-gray-900 p-4'>
@@ -77,20 +53,22 @@ const Register = () => {
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          {fields.map(({ label, id, type, validations }) => (
-            <FormInput
+          {formFields.map(({ label, id, type }) => (
+            <FormField<RegisterSchemaType>
               key={id}
               label={label}
-              id={id}
+              name={id}
               type={type}
               register={register}
-              validations={validations}
-              errors={errors}
+              error={errors[id]}
+              className={`w-full rounded-lg border border-gray-700 bg-gray-900 p-3 text-white placeholder-gray-500 transition focus:ring-1 focus:ring-blue-500 focus:outline-none ${
+                errors[id] ? 'border-red-500' : ''
+              }`}
             />
           ))}
 
           <div className='pt-2'>
-            <Button type='submit' isLoading={isSubmitting}>
+            <Button type='submit' isLoading={isSubmitting} className='w-full'>
               Registrarse
             </Button>
           </div>

@@ -1,22 +1,37 @@
 import { FieldError, UseFormRegister } from 'react-hook-form'
+import type { Path } from 'react-router'
 
-type RegisterFormData = {
+export type RegisterFormData = {
   email: string
   password: string
   firstName: string
   lastName: string
 }
 
-export type LoginFormData = RegisterData | { email: string; password: string }
+export type LoginFormData = {
+  email: string
+  password: string
+}
 
-export type FormFieldProps = {
-  type: string
-  placeholder: string
-  name: ValidFieldNames
-  register: UseFormRegister<RegisterFormData | LoginFormData>
-  error: FieldError | undefined
+type InputTypes =
+  | 'text'
+  | 'email'
+  | 'password'
+  | 'number'
+  | 'tel'
+  | 'url'
+  | 'search'
+  | 'date'
+  | 'checkbox'
+  | 'radio'
+
+export type FormFieldProps<T extends RegisterFormData | LoginFormData> = {
+  label: string
+  type: InputTypes
+  placeholder?: string
+  name: Path<T>
+  register: UseFormRegister<T>
+  error?: FieldError
   valueAsNumber?: boolean
   className?: string
 }
-
-export type ValidFieldNames = 'email' | 'password' | 'firstName' | 'lastName'

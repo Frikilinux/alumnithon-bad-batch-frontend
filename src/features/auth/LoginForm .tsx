@@ -1,9 +1,21 @@
-import { useForm } from 'react-hook-form'
-import type { SubmitHandler } from 'react-hook-form'
-import FormField from './components/FormField'
+import { useForm, type SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Link } from 'react-router-dom'
+
+import FormField from './components/FormField'
+import FormButton from './components/FormButton'
 import { LoginSchema, type LoginSchemaType } from './schemas/loginSchema'
-import { Link } from 'react-router'
+
+import type { InputTypes } from '../../types/form'
+
+const formFields: {
+  label: string
+  id: keyof LoginSchemaType
+  type: InputTypes
+}[] = [
+  { label: 'Correo electrónico', id: 'email', type: 'email' },
+  { label: 'Contraseña', id: 'password', type: 'password' },
+]
 
 const Login = () => {
   const {
@@ -13,19 +25,6 @@ const Login = () => {
   } = useForm<LoginSchemaType>({
     resolver: zodResolver(LoginSchema),
   })
-
-  const formFields = [
-    {
-      label: 'Correo electrónico',
-      id: 'email',
-      type: 'email',
-    },
-    {
-      label: 'Contraseña',
-      id: 'password',
-      type: 'password',
-    },
-  ]
 
   const onSubmit: SubmitHandler<LoginSchemaType> = (data) => {
     console.log('Datos enviados:', data)
@@ -45,36 +44,27 @@ const Login = () => {
 
         <form onSubmit={handleSubmit(onSubmit)}>
           {formFields.map(({ label, id, type }) => (
-            <div key={id} className='space-y-1 py-2'>
-              <label
-                htmlFor={id}
-                className='block text-sm font-normal text-gray-400'>
-                {label}
-              </label>
-              <FormField
-                type={type}
-                placeholder={`Ingresa tu ${label.toLowerCase()}`}
-                name={id as keyof LoginSchemaType}
-                register={register}
-                error={errors[id as keyof LoginSchemaType]}
-                className={`w-full rounded-lg border border-gray-700 bg-gray-900 p-3 text-white placeholder-gray-500 transition focus:ring-1 focus:ring-blue-500 focus:outline-none ${
-                  errors[id as keyof LoginSchemaType] ? 'border-red-500' : ''
-                }`}
-              />
-            </div>
+            <FormField<LoginSchemaType>
+              key={id}
+              label={label}
+              type={type}
+              placeholder={`Ingresa tu ${label.toLowerCase()}`}
+              name={id}
+              register={register}
+              error={errors[id]}
+              className={`w-full rounded-lg border border-gray-700 bg-gray-900 p-3 text-white placeholder-gray-500 transition focus:ring-1 focus:ring-blue-500 focus:outline-none ${
+                errors[id] ? 'border-red-500' : ''
+              }`}
+            />
           ))}
 
           <div className='pt-2'>
-            <button
+            <FormButton
               type='submit'
-              disabled={isSubmitting}
-              className={`w-full rounded-lg px-4 py-3 font-medium text-white transition ${
-                isSubmitting
-                  ? 'cursor-not-allowed bg-gray-700'
-                  : 'bg-blue-600 hover:bg-blue-700'
-              }`}>
-              {isSubmitting ? 'Iniciado sesión...' : 'Inicia sesión'}
-            </button>
+              isLoading={isSubmitting}
+              className='w-full'>
+              Iniciar sesión
+            </FormButton>
           </div>
         </form>
 
@@ -83,7 +73,7 @@ const Login = () => {
           <Link
             to='/registro'
             className='text-blue-400 transition hover:text-blue-300'>
-            Registrate gratis
+            Regístrate gratis
           </Link>
         </div>
       </div>
