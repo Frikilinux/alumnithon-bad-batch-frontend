@@ -1,23 +1,68 @@
 import { useForm } from 'react-hook-form'
 import type { SubmitHandler } from 'react-hook-form'
-
-type FormData = {
-  email: string
-  password: string
-  firstName: string
-  lastName: string
-}
+import { FormInput } from '../../components/form/FormInput'
+import { Button } from '../../components/ui/Button'
+import type { RegisterData } from '../../types/FormTypes'
 
 const Register = () => {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<FormData>()
+  } = useForm<RegisterData>()
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
-    console.log('Datos enviados:', data)
+  const onSubmit: SubmitHandler<RegisterData> = async (data) => {
+    try {
+      console.log('Datos enviados:', data)
+      await new Promise((res) => setTimeout(res, 1000)) // Simula espera
+      alert('Registro exitoso')
+    } catch (error) {
+      console.error('Error al registrar:', error)
+    }
   }
+
+  const fields = [
+    {
+      label: 'Nombre',
+      id: 'firstName',
+      type: 'text',
+      validations: {
+        required: 'El nombre es obligatorio',
+      },
+    },
+    {
+      label: 'Apellido',
+      id: 'lastName',
+      type: 'text',
+      validations: {
+        required: 'El apellido es obligatorio',
+      },
+    },
+    {
+      label: 'Correo electrónico',
+      id: 'email',
+      type: 'email',
+      validations: {
+        required: 'El correo es obligatorio',
+        pattern: {
+          value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
+          message: 'Correo no válido',
+        },
+      },
+    },
+    {
+      label: 'Contraseña',
+      id: 'password',
+      type: 'password',
+      validations: {
+        required: 'La contraseña es obligatoria',
+        minLength: {
+          value: 6,
+          message: 'Debe tener al menos 6 caracteres',
+        },
+      },
+    },
+  ] as const
 
   return (
     <div className='flex min-h-screen w-full items-center justify-center bg-gray-900 p-4'>
@@ -32,70 +77,22 @@ const Register = () => {
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          {[
-            {
-              label: 'Nombre',
-              id: 'firstName',
-              type: 'text',
-              required: 'El nombre es obligatorio',
-            },
-            {
-              label: 'Apellido',
-              id: 'lastName',
-              type: 'text',
-              required: 'El apellido es obligatorio',
-            },
-            {
-              label: 'Correo electrónico',
-              id: 'email',
-              type: 'email',
-              required: 'El correo es obligatorio',
-            },
-            {
-              label: 'Contraseña',
-              id: 'password',
-              type: 'password',
-              required: 'La contraseña es obligatoria',
-            },
-          ].map(({ label, id, type, required }) => (
-            <div key={id} className='space-y-1'>
-              <label
-                htmlFor={id}
-                className='block text-sm font-normal text-gray-400'>
-                {label}
-              </label>
-              <input
-                id={id}
-                type={type}
-                {...register(id as keyof FormData, { required })}
-                className={`w-full rounded-lg border border-gray-700 bg-gray-900 p-3 text-white placeholder-gray-500 transition focus:ring-1 focus:ring-blue-500 focus:outline-none ${
-                  errors[id as keyof FormData] ? 'border-red-500' : ''
-                }`}
-                placeholder={`Ingresa tu ${label.toLowerCase()}`}
-              />
-
-              {/* Contenedor de altura fija para mensajes de error */}
-              <div className='h-5'>
-                {errors[id as keyof FormData] && (
-                  <p className='animate-fadeIn text-sm text-red-400'>
-                    {errors[id as keyof FormData]?.message}
-                  </p>
-                )}
-              </div>
-            </div>
+          {fields.map(({ label, id, type, validations }) => (
+            <FormInput
+              key={id}
+              label={label}
+              id={id}
+              type={type}
+              register={register}
+              validations={validations}
+              errors={errors}
+            />
           ))}
 
           <div className='pt-2'>
-            <button
-              type='submit'
-              disabled={isSubmitting}
-              className={`w-full rounded-lg px-4 py-3 font-medium text-white transition ${
-                isSubmitting
-                  ? 'cursor-not-allowed bg-gray-700'
-                  : 'bg-blue-600 hover:bg-blue-700'
-              }`}>
-              {isSubmitting ? 'Creando cuenta...' : 'Registrarse'}
-            </button>
+            <Button type='submit' isLoading={isSubmitting}>
+              Registrarse
+            </Button>
           </div>
         </form>
 
@@ -106,7 +103,7 @@ const Register = () => {
               href='#'
               className='text-blue-400 transition hover:text-blue-300'>
               Inicia sesión
-            </a>{' '}
+            </a>
           </p>
         </div>
       </div>
