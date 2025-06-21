@@ -1,65 +1,25 @@
-import apiClient from './apiClient'
-import axios from 'axios'
+// src/api/user.ts
+import { get, post, put } from './apiService'
 import { endpoints } from './endPoints'
 
+// Obtener perfil del usuario autenticado
 export const getUserProfile = async () => {
-  try {
-    const response = await apiClient.get(endpoints.user.profile)
-    return response.data
-  } catch (error: unknown) {
-    if (axios.isAxiosError(error)) {
-      const message =
-        (error.response?.data as { message?: string })?.message ||
-        'Error desconocido al obtener perfil'
-      throw new Error(message)
-    }
-    throw new Error('Error inesperado')
-  }
+  return await get(endpoints.user.profile)
 }
 
+// Actualizar datos del usuario
 export const updateUserProfile = async (
   data: Partial<{ name: string; email: string }>
 ) => {
-  try {
-    const response = await apiClient.put(endpoints.user.update, data)
-    return response.data
-  } catch (error: unknown) {
-    if (axios.isAxiosError(error)) {
-      const message =
-        (error.response?.data as { message?: string })?.message ||
-        'Error desconocido al actualizar perfil'
-      throw new Error(message)
-    }
-    throw new Error('Error inesperado')
-  }
+  return await put(endpoints.user.update, data)
 }
 
+// Obtener usuario por ID
 export const getUserById = async (id: string) => {
-  try {
-    const response = await apiClient.get(endpoints.user.getById(id))
-    return response.data
-  } catch (error: unknown) {
-    if (axios.isAxiosError(error)) {
-      const message =
-        (error.response?.data as { message?: string })?.message ||
-        'Error al obtener usuario'
-      throw new Error(message)
-    }
-    throw new Error('Error inesperado')
-  }
+  return await get(endpoints.user.getById(id))
 }
 
+// Obtener todos los usuarios
 export const getAllUsers = async () => {
-  try {
-    const response = await apiClient.get(endpoints.user.getAll)
-    return response.data
-  } catch (error: unknown) {
-    if (axios.isAxiosError(error)) {
-      const message =
-        (error.response?.data as { message?: string })?.message ||
-        'Error al obtener la lista de usuarios'
-      throw new Error(message)
-    }
-    throw new Error('Error inesperado')
-  }
+  return await get(endpoints.user.getAll)
 }

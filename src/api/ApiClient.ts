@@ -1,6 +1,7 @@
-import axios from 'axios'
+import axios, { AxiosHeaders } from 'axios'
 import Cookies from 'js-cookie'
 import { handleApiError } from './errorHandler'
+import type { CustomAxiosRequestConfig } from '../types/auth'
 
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_URL || 'https://api.example.com',
@@ -10,12 +11,19 @@ const apiClient = axios.create({
 })
 
 apiClient.interceptors.request.use((config) => {
-  if ((config as any).useAuth) {
+  const customConfig = config as CustomAxiosRequestConfig
+  const useAuth = customConfig.useAuth ?? true
+
+  if (useAuth) {
     const token = Cookies.get('token')
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`
+      config.headers = AxiosHeaders.from({
+        ...config.headers,
+        Authorization: `Bearer ${token}`,
+      })
     }
   }
+
   return config
 })
 
