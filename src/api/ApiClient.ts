@@ -31,6 +31,7 @@ apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
     handleApiError(error)
+    console.log('Error in API response: apiclient')
     return Promise.reject(error)
   }
 )
