@@ -7,6 +7,7 @@ import Register from '../pages/Register'
 import Login from '../pages/Login'
 
 export const Routes = [
+  // Rutas públicas
   {
     path: '/',
     element: <MainLayout />,
@@ -18,14 +19,18 @@ export const Routes = [
   { path: '/registro', element: <Register /> },
   { path: '/login', element: <Login /> },
 
-  { path: '/registro', element: <Register /> },
-
-  //RUTAS PROTEGIDAS
+  // Rutas protegidas
   {
-    path: '/',
+    path: '/dashboard',
     element: <ProtectedRoute />,
-    children: [{ path: 'dashboard', element: <MainLayout /> }],
+    children: [
+      {
+        index: true,
+        element: <Register />,
+      },
+    ],
   },
 
+  // Página no encontrada
   { path: '*', element: <Error /> },
 ]
