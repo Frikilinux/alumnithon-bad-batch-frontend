@@ -1,5 +1,5 @@
 import axios from 'axios'
-import apiClient from './apiClient'
+import apiClient from './ApiClient'
 import { endpoints } from './endPoints'
 import type { RegisterFormData } from '../types/form'
 import type { LoginFormData } from '../types/form'
