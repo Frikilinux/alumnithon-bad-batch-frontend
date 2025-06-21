@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react'
-import apiClient from '../api/ApiClient'
+import { getCurrentUser } from '../api/auth'
+import { handleApiError } from '../api/errorHandler'
 
 type User = {
   id: string
@@ -24,11 +25,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   // useEffect(() => {
   //   const checkAuth = async () => {
   //     try {
-  //       const res = await apiClient.get('/auth/me')
-  //       setUser(res.data)
-  //       console.log(`Usuario autenticado: ${res.data.email}`)
+  //       const user = await getCurrentUser()
+  //       setUser(user)
   //     } catch (err) {
-  //       console.error('Error al verificar autenticación:', err)
+  //       handleApiError(err)
   //       setUser(null)
   //     } finally {
   //       setIsLoading(false)
@@ -37,18 +37,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   //   checkAuth()
   // }, [])
-
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        // Simula un usuario autenticado (cambia o comenta para probar sin usuario)
         const simulatedUser = {
           id: '123',
           email: 'test@example.com',
           name: 'Usuario Simulado',
         }
         setUser(simulatedUser)
-      } catch {
+      } catch (err: any) {
+        handleApiError(err)
         setUser(null)
       } finally {
         setIsLoading(false)
