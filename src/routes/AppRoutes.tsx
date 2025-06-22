@@ -6,8 +6,10 @@ import About from '../pages/About'
 import Register from '../pages/Register'
 import Login from '../pages/Login'
 import Mentorship from '../pages/Mentorship'
+import Perfil from '../pages/Profile'
 
 export const Routes = [
+  // Rutas públicas
   {
     path: '/',
     element: <MainLayout />,
@@ -15,19 +17,24 @@ export const Routes = [
       { index: true, element: <Home /> },
       { path: 'about', element: <About /> },
       { path: 'mentorship', element: <Mentorship /> },
+      { path: 'perfil', element: <Perfil /> },
     ],
   },
   { path: '/registro', element: <Register /> },
   { path: '/login', element: <Login /> },
 
-  { path: '/registro', element: <Register /> },
-
-  //RUTAS PROTEGIDAS
+  // Rutas protegidas
   {
-    path: '/',
+    path: '/dashboard',
     element: <ProtectedRoute />,
-    children: [{ path: 'dashboard', element: <MainLayout /> }],
+    children: [
+      {
+        index: true,
+        element: <Register />,
+      },
+    ],
   },
 
+  // Página no encontrada
   { path: '*', element: <Error /> },
 ]

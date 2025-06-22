@@ -1,0 +1,125 @@
+// src/hooks/profile/useFilteredProfiles.ts
+
+import { useMemo } from 'react'
+
+export interface UserProfile {
+  id: string
+  name: string
+  title: string
+  description: string
+  stack: string[]
+  interests: string[]
+  avatarUrl: string
+}
+
+export interface UserProfileFilter {
+  stack?: string[]
+  interests?: string[]
+  location?: string
+  experience?: string
+}
+
+const backendProfiles: (UserProfile & {
+  location: string
+  experience: string
+})[] = [
+  {
+    id: '1',
+    name: 'Laura Martínez',
+    title: 'Senior Frontend Developer',
+    description: 'Apasionada por crear experiencias de usuario excepcionales.',
+    stack: ['React', 'TypeScript', 'JavaScript'],
+    interests: ['Desarrollo Web', 'UX/UI'],
+    avatarUrl: 'https://randomuser.me/api/portraits/women/1.jpg',
+    location: 'Latinoamérica',
+    experience: 'Senior',
+  },
+  {
+    id: '2',
+    name: 'Carlos Rodríguez',
+    title: 'Backend Developer',
+    description: 'Especialista en arquitecturas escalables.',
+    stack: ['Node.js', 'Python', 'AWS'],
+    interests: ['Cloud Computing', 'DevOps'],
+    avatarUrl: 'https://randomuser.me/api/portraits/men/2.jpg',
+    location: 'Europa',
+    experience: 'Mid',
+  },
+  {
+    id: '3',
+    name: 'Ana Gómez',
+    title: 'Mobile Developer',
+    description:
+      'Desarrolladora de aplicaciones móviles con experiencia en iOS y React Native.',
+    stack: ['Swift', 'React Native', 'JavaScript'],
+    interests: ['Desarrollo Móvil', 'UX/UI'],
+    avatarUrl: 'https://randomuser.me/api/portraits/women/3.jpg',
+    location: 'Latinoamérica',
+    experience: 'Junior',
+  },
+  {
+    id: '4',
+    name: 'David Pérez',
+    title: 'Full Stack Developer',
+    description: 'Desarrollador full stack con pasión por el código limpio.',
+    stack: ['JavaScript', 'Node.js', 'React'],
+    interests: ['Desarrollo Web', 'Ciberseguridad'],
+    avatarUrl: 'https://randomuser.me/api/portraits',
+    location: 'Asia',
+    experience: 'Senior',
+  },
+  {
+    id: '5',
+    name: 'Sofía Torres',
+    title: 'Data Scientist',
+    description:
+      'Apasionada por el análisis de datos y la inteligencia artificial.',
+    stack: ['Python', 'Machine Learning', 'Data Analysis'],
+    interests: ['Inteligencia Artificial', 'Machine Learning'],
+    avatarUrl: 'https://randomuser.me',
+    location: 'Europa',
+    experience: 'Mid',
+  },
+]
+
+function mockBackendFetch(filters: UserProfileFilter): UserProfile[] {
+  const filtered = backendProfiles.filter((profile) => {
+    if (filters.location && profile.location !== filters.location) return false
+
+    if (
+      filters.experience &&
+      profile.experience.toLowerCase() !== filters.experience.toLowerCase()
+    )
+      return false
+
+    if (
+      filters.stack &&
+      filters.stack.length > 0 &&
+      !filters.stack.some((tech) => profile.stack.includes(tech))
+    )
+      return false
+
+    if (
+      filters.interests &&
+      filters.interests.length > 0 &&
+      !filters.interests.some((interest) =>
+        profile.interests.includes(interest)
+      )
+    )
+      return false
+
+    return true
+  })
+
+  return filtered.map(({ location, experience, ...profile }) => profile)
+}
+
+export const useFilteredProfiles = (filters: UserProfileFilter) => {
+  const data = useMemo(() => mockBackendFetch(filters), [filters])
+
+  return {
+    data,
+    isLoading: false,
+    error: false,
+  }
+}
