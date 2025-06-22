@@ -21,6 +21,11 @@ const NavBar = () => {
             About
           </NavLink>
         </li>
+        <li>
+          <NavLink to='/mentorship' className='[.active]:border-b-2'>
+            Mentorías
+          </NavLink>
+        </li>
       </ul>
     </nav>
   )
