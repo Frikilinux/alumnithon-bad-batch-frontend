@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { getCurrentUser } from '../api/auth'
+import { getCurrentUser } from '../services/authService'
 
 type User = {
   id: string
@@ -26,7 +26,6 @@ export const useAuthStore = create<AuthState>((set) => ({
       const user = (await getCurrentUser()) as User
       set({ user, isLoading: false })
     } catch (err) {
-      // No llamamos a handleApiError aquí para no duplicar alertas
       console.log('Error checking authStore:', err)
       set({ user: null, isLoading: false })
     }

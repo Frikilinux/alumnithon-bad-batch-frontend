@@ -5,10 +5,10 @@ export const endpoints = {
     logout: '/auth/logout',
     user: '/auth/user',
   },
-  user: {
-    profile: '/user/profile',
-    update: '/user/update',
-    getById: (id: string) => `/users/${id}`,
-    getAll: '/user/all',
+  profile: {
+    getMe: '/profile/me',
+    update: '/profile/update',
+    getById: (id: string) => `/profile/${id}`,
+    getAll: '/profile/all',
   },
 }
