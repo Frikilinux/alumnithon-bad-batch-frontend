@@ -14,14 +14,14 @@ const MentorshipCardList: React.FC = () => {
   )
 
   return (
-    <section className='my-6'>
+    <section className='m-2 md:m-8'>
       <div className='mb-6 flex items-center justify-between'>
         <h2 className='text-2xl font-semibold'>
           Mentorías ({mentorships.length} resultados)
         </h2>
       </div>
 
-      <div className='grid gap-6 px-6 md:grid-cols-2 lg:grid-cols-3'>
+      <div className='grid gap-6 md:grid-cols-2 lg:grid-cols-3'>
         {paginatedMentorship.map((mentorship: Mentorship) => (
           <MentorshipCard key={mentorship.id} mentorship={mentorship} />
         ))}
