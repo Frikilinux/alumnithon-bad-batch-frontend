@@ -17,7 +17,7 @@ const Mentorship = () => {
     setAppliedFilters(localFilters)
   }
   return (
-    <div className='space-y-8'>
+    <div className='bg-[#F8FAFC]'>
       <MentorshipHeader />
       <MentorshipStats />
       <SearchFilters
