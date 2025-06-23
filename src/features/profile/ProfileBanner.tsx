@@ -1,7 +1,4 @@
-// src/components/CommunityBanner.tsx
-
 import React from 'react'
-// import { FaUsers } from 'react-icons/fa'; // ícono similar al del banner
 
 const CommunityBanner: React.FC = () => {
   return (

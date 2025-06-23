@@ -11,7 +11,7 @@ const CheckboxFilter: React.FC<CheckboxFilterProps> = ({
   value,
   onChange,
 }) => (
-  <label className='flex cursor-pointer items-center space-x-2'>
+  <label className='redio-inline-flex cursor-pointer items-center space-x-2'>
     <input
       type='checkbox'
       className='h-4 w-4 rounded text-blue-600 focus:ring-blue-500'
