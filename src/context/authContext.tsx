@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react'
-import { getCurrentUser } from '../api/auth'
+// import { getCurrentUser } from '../api/auth'
 import { handleApiError } from '../api/errorHandler'
 
 type User = {

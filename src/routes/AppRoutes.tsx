@@ -5,6 +5,7 @@ import Home from '../pages/Home'
 import About from '../pages/About'
 import Register from '../pages/Register'
 import Login from '../pages/Login'
+import Mentorship from '../pages/Mentorship'
 import Perfil from '../pages/Profile'
 
 export const Routes = [
@@ -15,6 +16,7 @@ export const Routes = [
     children: [
       { index: true, element: <Home /> },
       { path: 'about', element: <About /> },
+      { path: 'mentorship', element: <Mentorship /> },
       { path: 'perfil', element: <Perfil /> },
     ],
   },
