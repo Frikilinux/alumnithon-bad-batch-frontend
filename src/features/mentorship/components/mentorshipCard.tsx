@@ -15,7 +15,6 @@ const MentorshipCard = ({ mentorship }: { mentorship: Mentorship }) => {
     month: 'long',
     day: 'numeric',
   })
-  console.log(category[mentorship.category])
 
   return (
     <div className='mentorship-card overflow-hidden rounded-xl bg-white shadow-md'>
@@ -35,7 +34,7 @@ const MentorshipCard = ({ mentorship }: { mentorship: Mentorship }) => {
         <h4 className='mb-2 text-xl font-semibold'>{mentorship.title}</h4>
         <p className='mb-4 text-gray-600'>{mentorship.description}</p>
 
-        <div className='mb-4 flex items-center'>
+        <div className='mb-4 flex items-center gap-1'>
           <IconCalendar />
           <span className='text-gray-600'>{date}</span>
         </div>

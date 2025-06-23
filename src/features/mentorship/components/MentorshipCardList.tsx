@@ -2,13 +2,30 @@ import { useState } from 'react'
 import { mentorships, type Mentorship } from '../constants/mentorships'
 import MentorshipCard from './mentorshipCard'
 import MentorshipPagination from './MentorshipPagination'
+import type { MentorshipFilter } from '../../../pages/Mentorship'
 
-const MentorshipCardList: React.FC = () => {
+type Props = {
+  filters: MentorshipFilter
+}
+
+const MentorshipCardList: React.FC<Props> = ({ filters }) => {
   const [currentPage, setCurrentPage] = useState(1)
   const mentorshipsPerPage = 8
 
-  const totalPages = Math.ceil(mentorships.length / mentorshipsPerPage)
-  const paginatedMentorship = mentorships.slice(
+  console.log('Filters applied:', filters.tag)
+
+  const filterByTags = (): Mentorship[] => {
+    if (!filters.tag || filters.tag.length === 0) return mentorships
+
+    const filterTagsLower = filters.tag.map((tag) => tag.toLowerCase())
+
+    return mentorships.filter((mentorship) =>
+      mentorship.tags.some((tag) => filterTagsLower.includes(tag.toLowerCase()))
+    )
+  }
+
+  const totalPages = Math.ceil(filterByTags().length / mentorshipsPerPage)
+  const paginatedMentorship = filterByTags().slice(
     (currentPage - 1) * mentorshipsPerPage,
     currentPage * mentorshipsPerPage
   )
