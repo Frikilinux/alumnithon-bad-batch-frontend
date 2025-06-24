@@ -7,6 +7,7 @@ import Register from '../pages/Register'
 import Login from '../pages/Login'
 import Mentorship from '../pages/Mentorship'
 import Perfil from '../pages/Profile'
+import Challenge from '../pages/Challenge'
 
 export const Routes = [
   // Rutas públicas
@@ -18,6 +19,7 @@ export const Routes = [
       { path: 'about', element: <About /> },
       { path: 'mentorship', element: <Mentorship /> },
       { path: 'perfil', element: <Perfil /> },
+      { path: 'challenge', element: <Challenge /> },
     ],
   },
   { path: '/registro', element: <Register /> },
