@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import MentorshipStats from '../features/mentorship/components/MentorshipStats'
 import MentorshipCardList from '../features/mentorship/components/MentorshipCardList'
 import SearchFilters from '../features/mentorship/components/SearchFilter'
 import PageBanner from '../components/ui/PageBanner'

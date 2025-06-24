@@ -19,14 +19,7 @@ interface PageBannerProps {
 
 const PageBanner = (props: PageBannerProps) => {
   const navigate = useNavigate()
-  const {
-    type,
-    title,
-    description,
-    primaryBtn,
-    secondaryButton,
-    icon: Icon,
-  } = props
+  const { title, description, primaryBtn, secondaryButton, icon: Icon } = props
 
   const handleClick = (url: string) => {
     navigate(url)
