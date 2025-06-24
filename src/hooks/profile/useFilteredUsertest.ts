@@ -143,3 +143,99 @@ export const useFilteredProfiles = (filters: UserProfileFilter) => {
     error: false,
   }
 }
+
+// import { useEffect, useMemo, useState } from 'react'
+
+// export interface UserProfile {
+//   id: string
+//   name: string
+//   title: string
+//   description: string
+//   stack: string[]
+//   interests: string[]
+//   avatarUrl: string
+//   location: string
+//   experience: string
+// }
+
+// export interface UserProfileFilter {
+//   stack?: string[]
+//   interests?: string[]
+//   location?: string
+//   experience?: string
+// }
+
+// export interface FilterOptions {
+//   stack: string[]
+//   interests: string[]
+//   location: string[]
+//   experience: string[]
+// }
+
+// export const useFilteredProfiles = (filters: UserProfileFilter) => {
+//   const [allProfiles, setAllProfiles] = useState<UserProfile[]>([])
+//   const [isLoading, setIsLoading] = useState(true)
+//   const [error, setError] = useState(false)
+
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       setIsLoading(true)
+//       setError(false)
+
+//       try {
+//         const response = await fetch('/api/profiles')
+//         const result = await response.json()
+//         setAllProfiles(result)
+//       } catch (err) {
+//         console.error('Error fetching profiles:', err)
+//         setError(true)
+//       } finally {
+//         setIsLoading(false)
+//       }
+//     }
+
+//     fetchData()
+//   }, [])
+
+//   // 🔍 Opciones de filtros extraídas de todos los perfiles (únicas y ordenadas)
+//   const options = useMemo(() => {
+//     const stacks = new Set<string>()
+//     const interests = new Set<string>()
+//     const locations = new Set<string>()
+//     const experiences = new Set<string>()
+
+//     allProfiles.forEach((profile) => {
+//       profile.stack.forEach((s) => stacks.add(s))
+//       profile.interests.forEach((i) => interests.add(i))
+//       locations.add(profile.location)
+//       experiences.add(profile.experience)
+//     })
+
+//     return {
+//       stack: Array.from(stacks).sort(),
+//       interests: Array.from(interests).sort(),
+//       location: Array.from(locations).sort(),
+//       experience: Array.from(experiences).sort(),
+//     }
+//   }, [allProfiles])
+
+//   // ✅ Aplicar filtros en el frontend
+//   const filteredData = useMemo(() => {
+//     return allProfiles.filter((profile) => {
+//       if (filters.location && profile.location !== filters.location) return false
+//       if (filters.experience && profile.experience !== filters.experience) return false
+//       if (filters.stack && filters.stack.length > 0 &&
+//           !filters.stack.some((s) => profile.stack.includes(s))) return false
+//       if (filters.interests && filters.interests.length > 0 &&
+//           !filters.interests.some((i) => profile.interests.includes(i))) return false
+//       return true
+//     })
+//   }, [filters, allProfiles])
+
+//   return {
+//     data: filteredData,
+//     options,
+//     isLoading,
+//     error,
+//   }
+// }
