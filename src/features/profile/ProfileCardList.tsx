@@ -1,18 +1,16 @@
 import React, { useState } from 'react'
 import ProfileCard from './ProfileCard'
 import Pagination from './ProfilePagination'
-import { useFilteredProfiles } from '../../hooks/profile/useFilteredUsertest'
-import type { UserProfile, UserProfileFilter } from '../../types/user'
+import type { UserProfile } from '../../hooks/profile/useFilteredUsertest'
 
 type Props = {
-  filters: UserProfileFilter
+  profiles: UserProfile[]
+  isLoading: boolean
 }
 
-const PerfilCardList: React.FC<Props> = ({ filters }) => {
+const PerfilCardList: React.FC<Props> = ({ profiles, isLoading }) => {
   const [currentPage, setCurrentPage] = useState(1)
   const profilesPerPage = 8
-
-  const { data: profiles = [], isLoading, error } = useFilteredProfiles(filters)
 
   const totalPages = Math.ceil(profiles.length / profilesPerPage)
   const paginatedProfiles = profiles.slice(
@@ -21,7 +19,8 @@ const PerfilCardList: React.FC<Props> = ({ filters }) => {
   )
 
   if (isLoading) return <p>Cargando perfiles...</p>
-  if (error) return <p>Error al cargar perfiles</p>
+  if (!isLoading && profiles.length === 0)
+    return <p>No se encontraron perfiles que coincidan.</p>
 
   return (
     <section className='my-6'>
@@ -32,7 +31,7 @@ const PerfilCardList: React.FC<Props> = ({ filters }) => {
       </div>
 
       <div className='grid gap-6 md:grid-cols-2 lg:grid-cols-3'>
-        {paginatedProfiles.map((profile: UserProfile) => (
+        {paginatedProfiles.map((profile) => (
           <ProfileCard key={profile.id} profile={profile} />
         ))}
       </div>

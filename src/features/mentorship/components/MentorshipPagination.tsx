@@ -1,12 +1,14 @@
+// src/components/Pagination.tsx
+
 import React from 'react'
 
-type PaginationProps = {
+type MentorshipPaginationProps = {
   currentPage: number
   totalPages: number
   onPageChange: (page: number) => void
 }
 
-const Pagination: React.FC<PaginationProps> = ({
+const MentorshipPagination: React.FC<MentorshipPaginationProps> = ({
   currentPage,
   totalPages,
   onPageChange,
@@ -43,4 +45,4 @@ const Pagination: React.FC<PaginationProps> = ({
   )
 }
 
-export default Pagination
+export default MentorshipPagination
