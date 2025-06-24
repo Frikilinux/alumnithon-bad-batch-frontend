@@ -6,6 +6,8 @@ import About from '../pages/About'
 import Register from '../pages/Register'
 import Login from '../pages/Login'
 import Perfil from '../pages/Profile'
+import CreatePerfil from '../pages/CreatePerfil'
+
 
 export const Routes = [
   // Rutas públicas
@@ -16,6 +18,8 @@ export const Routes = [
       { index: true, element: <Home /> },
       { path: 'about', element: <About /> },
       { path: 'perfil', element: <Perfil /> },
+      { path: 'crear-perfil', element: <CreatePerfil /> }
+
     ],
   },
   { path: '/registro', element: <Register /> },
