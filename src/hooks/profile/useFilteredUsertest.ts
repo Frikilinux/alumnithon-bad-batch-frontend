@@ -1,5 +1,3 @@
-// src/hooks/profile/useFilteredProfiles.ts
-
 import { useMemo } from 'react'
 
 export interface UserProfile {
@@ -62,7 +60,7 @@ const backendProfiles: (UserProfile & {
     name: 'David Pérez',
     title: 'Full Stack Developer',
     description: 'Desarrollador full stack con pasión por el código limpio.',
-    stack: ['JavaScript', 'Node.js', 'React'],
+    stack: ['JavaScript', 'Node.js', 'React', 'Firebase'],
     interests: ['Desarrollo Web', 'Ciberseguridad'],
     avatarUrl: 'https://randomuser.me/api/portraits',
     location: 'Asia',
@@ -117,8 +115,30 @@ function mockBackendFetch(filters: UserProfileFilter): UserProfile[] {
 export const useFilteredProfiles = (filters: UserProfileFilter) => {
   const data = useMemo(() => mockBackendFetch(filters), [filters])
 
+  const options = useMemo(() => {
+    const stacks = new Set<string>()
+    const interests = new Set<string>()
+    const locations = new Set<string>()
+    const experiences = new Set<string>()
+
+    backendProfiles.forEach((profile) => {
+      profile.stack.forEach((s) => stacks.add(s))
+      profile.interests.forEach((i) => interests.add(i))
+      locations.add(profile.location)
+      experiences.add(profile.experience)
+    })
+
+    return {
+      stack: Array.from(stacks).sort(),
+      interests: Array.from(interests).sort(),
+      location: Array.from(locations).sort(),
+      experience: Array.from(experiences).sort(),
+    }
+  }, [])
+
   return {
     data,
+    options,
     isLoading: false,
     error: false,
   }

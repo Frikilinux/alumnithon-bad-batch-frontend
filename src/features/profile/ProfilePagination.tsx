@@ -1,5 +1,3 @@
-// src/components/Pagination.tsx
-
 import React from 'react'
 
 type PaginationProps = {
