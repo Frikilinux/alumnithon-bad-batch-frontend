@@ -35,6 +35,11 @@ const NavBar = () => {
 
           </NavLink>
         </li>
+        <li>
+          <NavLink to='/challenge' className='[.active]:border-b-2'>
+            Desafíos
+          </NavLink>
+        </li>
       </ul>
     </nav>
   )

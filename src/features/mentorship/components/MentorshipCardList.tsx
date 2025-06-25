@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { mentorships, type Mentorship } from '../constants/mentorships'
 import MentorshipCard from './mentorshipCard'
-import MentorshipPagination from './MentorshipPagination'
 import type { MentorshipFilter } from '../../../pages/Mentorship'
+import PagePagination from '../../../components/ui/PagePagination'
 
 type Props = {
   filters: MentorshipFilter
@@ -44,7 +44,7 @@ const MentorshipCardList: React.FC<Props> = ({ filters }) => {
         ))}
       </div>
 
-      <MentorshipPagination
+      <PagePagination
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={setCurrentPage}
