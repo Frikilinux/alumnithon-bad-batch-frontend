@@ -1,0 +1,83 @@
+import type { Mentorship } from '../constants/mentorships'
+import { category } from '../constants/mentorships'
+import { IconAlarm, IconCalendar, IconUsers } from '@tabler/icons-react'
+
+const MentorshipCard = ({ mentorship }: { mentorship: Mentorship }) => {
+  const getParticipantsPercentage = (): number => {
+    if (mentorship.maxParticipants === 0) return 0
+    const percentage =
+      (mentorship.participants / mentorship.maxParticipants) * 100
+    return Math.min(100, Math.max(0, Math.round(percentage)))
+  }
+
+  const date = new Date(mentorship.date).toLocaleDateString('es-ES', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  })
+
+  return (
+    <div className='mentorship-card overflow-hidden rounded-xl bg-white shadow-md'>
+      <div className={`${category[mentorship.category].color} h-3`}></div>
+      <div className='p-6'>
+        <div className='mb-4 flex items-center'>
+          <img
+            src={mentorship.avatarUrl}
+            alt='Mentor'
+            className='border-primary-100 mr-4 h-12 w-12 rounded-full border-2'
+          />
+          <div>
+            <h3 className='text-lg font-bold'>{mentorship.username}</h3>
+            <p className='text-sm text-gray-600'>{mentorship.expertise}</p>
+          </div>
+        </div>
+        <h4 className='mb-2 text-xl font-semibold'>{mentorship.title}</h4>
+        <p className='mb-4 text-gray-600'>{mentorship.description}</p>
+
+        <div className='mb-4 flex items-center gap-1'>
+          <IconCalendar />
+          <span className='text-gray-600'>{date}</span>
+        </div>
+
+        <div className='mb-4 flex items-center gap-1 text-gray-600'>
+          <IconAlarm />
+          <span>{mentorship.time}</span>
+        </div>
+
+        <div className='mb-4 flex items-center gap-1 text-gray-600'>
+          <IconUsers />
+          <span>
+            {mentorship.maxParticipants - mentorship.participants}/
+            {mentorship.maxParticipants} plazas disponibles
+          </span>
+        </div>
+
+        <div className='mb-4 h-2.5 w-full rounded-full bg-gray-200'>
+          <div
+            style={{
+              width: `${getParticipantsPercentage()}%`,
+            }}
+            className={`h-2.5 rounded-full bg-blue-600`}></div>
+        </div>
+
+        <div className='mb-4 flex flex-wrap gap-2'>
+          {mentorship.tags.map((tag, index) => {
+            return (
+              <span
+                key={`${tag}-${index}}`}
+                className='rounded bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800'>
+                {tag}
+              </span>
+            )
+          })}
+        </div>
+
+        <button className='hover:bg-primary-700 w-full rounded-lg bg-blue-600 py-2 font-medium text-white transition'>
+          Inscribirse
+        </button>
+      </div>
+    </div>
+  )
+}
+
+export default MentorshipCard

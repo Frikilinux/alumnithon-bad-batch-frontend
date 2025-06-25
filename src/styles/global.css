@@ -1,0 +1,12 @@
+@import 'tailwindcss';
+
+@theme inline {
+  --font-sans: 'Inter Variable', sans-serif;
+  --color-primary-foreground: oklch(0.93 0.01 0);
+  --color-primary-background: oklch(0.49 0.22 264.38);
+  --color-card-background: oklch(0.72 0.19 149.58);
+}
+
+#root {
+  min-width: 300px;
+}
