@@ -24,8 +24,15 @@ const NavBar = () => {
           </NavLink>
         </li>
         <li>
+
+          <NavLink to='/crear-perfil' className='[.active]:border-b-2'>
+            Crear Perfil
+            
+          </NavLink>
+
           <NavLink to='/mentorship' className='[.active]:border-b-2'>
             Mentorías
+
           </NavLink>
         </li>
       </ul>
