@@ -2,15 +2,15 @@ import React from 'react'
 
 const CommunityBanner: React.FC = () => {
   return (
-    <section className='flex flex-col items-center justify-between bg-gradient-to-r from-sky-600 to-sky-700 p-10 text-white shadow-lg md:flex-row'>
+    <section className='flex flex-col items-center justify-between bg-gradient-to-r from-blue-600 to-blue-800 p-4 text-white shadow-lg md:flex-row'>
       {/* Texto */}
       <div className='mb-6 flex-1 md:mb-0'>
-        <h1 className='mb-4 text-3xl font-bold md:text-4xl'>
+        <h1 className='mb-4 text-center text-3xl font-bold md:text-left md:text-5xl'>
           Conecta con la
           <br />
           Comunidad Tech
         </h1>
-        <p className='mb-6 text-lg'>
+        <p className='mb-6 text-center text-xl md:text-left'>
           Encuentra desarrolladores con intereses similares, amplía tu red
           profesional y colabora en proyectos innovadores.
         </p>

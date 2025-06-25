@@ -23,7 +23,7 @@ const PerfilCardList: React.FC<Props> = ({ profiles, isLoading }) => {
     return <p>No se encontraron perfiles que coincidan.</p>
 
   return (
-    <section className='my-6'>
+    <section className='mx-w-7xl my-6 px-4 sm:px-6 lg:px-8'>
       <div className='mb-6 flex items-center justify-between'>
         <h2 className='text-2xl font-semibold'>
           Comunidad ({profiles.length} resultados)

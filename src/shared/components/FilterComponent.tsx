@@ -94,7 +94,7 @@ const UnifiedFilters: React.FC<UnifiedFiltersProps> = ({
   }
 
   return (
-    <section className='space-y-6 rounded-lg bg-white p-4 shadow-md'>
+    <section className='container mx-auto space-y-6 rounded-lg bg-white p-6 shadow-md'>
       <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3'>
         {config.map((filter) => {
           const opts = options[filter.name as keyof OptionsType] || []
