@@ -1,4 +1,6 @@
 import { IconBell, IconCode, IconMessage, IconUser } from '@tabler/icons-react'
+import { useState } from 'react'
+import ChatSidebar from '../features/menssage/ChatSidebar'
 // import { useState } from 'react'
 import { NavLink } from 'react-router'
 
@@ -57,16 +59,15 @@ const Logo = () => {
   )
 }
 
-const UserButton = () => {
+const UserButton = ({ onChatClick }: { onChatClick: () => void }) => {
   return (
     <div className='flex items-center gap-4 justify-self-end'>
-      <button type='button'>
+      <button type='button' onClick={onChatClick}>
         <IconMessage className='size-7 hover:cursor-pointer' />
       </button>
       <button type='button'>
         <IconBell className='size-7 hover:cursor-pointer' />
       </button>
-
       <NavLink to='/registro'>
         <button
           data-tooltip-id='user-tooltip'
@@ -80,12 +81,24 @@ const UserButton = () => {
 }
 
 const Header = () => {
+  const [showChat, setShowChat] = useState(false)
   // const [isloggedIn, setIsLoggedIn] = useState(false)
   return (
     <header className='text-primary-foreground bg-primary-background sticky top-0 z-1 grid w-full grid-cols-2 items-center p-4 shadow-md shadow-slate-950/50 md:grid-cols-3'>
       <Logo />
       <NavBar />
-      <UserButton />
+      <UserButton onChatClick={() => setShowChat(true)} />
+
+      <div
+        className={`fixed top-0 right-0 z-50 h-full w-[350px] border-l border-blue-300 bg-blue-50 shadow-xl transition-transform duration-300 ${
+          showChat ? 'translate-x-0' : 'translate-x-full'
+        }`}
+        inert={!showChat}>
+        <ChatSidebar
+          currentUser={{ id: 'yo', name: 'Mi Usuario' }}
+          onClose={() => setShowChat(false)}
+        />
+      </div>
     </header>
   )
 }

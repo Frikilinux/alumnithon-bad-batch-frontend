@@ -1,5 +1,3 @@
-// src/components/ProfileCard.tsx
-
 import React from 'react'
 
 type Profile = {
