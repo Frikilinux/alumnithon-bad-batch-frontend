@@ -83,7 +83,17 @@ const Header = () => {
       <Logo />
       <NavBar />
       <UserButton onChatClick={() => setShowChat(true)} />
-      {showChat && <ChatSidebar onClose={() => setShowChat(false)} />}
+
+      <div
+        className={`fixed top-0 right-0 z-50 h-full w-[350px] border-l border-blue-300 bg-blue-50 shadow-xl transition-transform duration-300 ${
+          showChat ? 'translate-x-0' : 'translate-x-full'
+        }`}
+        inert={!showChat}>
+        <ChatSidebar
+          currentUser={{ id: 'yo', name: 'Mi Usuario' }}
+          onClose={() => setShowChat(false)}
+        />
+      </div>
     </header>
   )
 }
