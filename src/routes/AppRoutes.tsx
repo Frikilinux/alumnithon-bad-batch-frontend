@@ -34,7 +34,7 @@ export const Routes = [
     children: [
       {
         index: true,
-        element: <Register />,
+        element: <Perfil />,
       },
     ],
   },

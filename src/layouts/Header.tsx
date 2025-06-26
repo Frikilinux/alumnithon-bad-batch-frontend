@@ -24,20 +24,23 @@ const NavBar = () => {
           </NavLink>
         </li>
         <li>
-
           <NavLink to='/crear-perfil' className='[.active]:border-b-2'>
             Crear Perfil
-            
           </NavLink>
-
+        </li>
+        <li>
           <NavLink to='/mentorship' className='[.active]:border-b-2'>
             Mentorías
-
           </NavLink>
         </li>
         <li>
           <NavLink to='/challenge' className='[.active]:border-b-2'>
             Desafíos
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to='/perfil' className='[.active]:border-b-2'>
+            Comunidad
           </NavLink>
         </li>
       </ul>
