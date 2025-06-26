@@ -8,6 +8,7 @@ import Login from '../pages/Login'
 import Mentorship from '../pages/Mentorship'
 import Perfil from '../pages/Profile'
 import CreatePerfil from '../pages/CreatePerfil'
+import UserProfilePage from '../pages/UserProfilePage'
 import Challenge from '../pages/Challenge'
 
 export const Routes = [
@@ -21,6 +22,7 @@ export const Routes = [
       { path: 'mentorship', element: <Mentorship /> },
       { path: 'perfil', element: <Perfil /> },
       { path: 'crear-perfil', element: <CreatePerfil /> },
+      { path: 'UserPerfil', element: <UserProfilePage /> },
       { path: 'challenge', element: <Challenge /> },
     ],
   },
