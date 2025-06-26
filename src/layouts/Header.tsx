@@ -33,10 +33,11 @@ const NavBar = () => {
             Mentorías
           </NavLink>
         </li>
-
-        <NavLink to='/perfil' className='[.active]:border-b-2'>
-          Perfil
-        </NavLink>
+        <li>
+          <NavLink to='/perfil' className='[.active]:border-b-2'>
+            Perfil
+          </NavLink>
+        </li>
         <li>
           <NavLink to='/challenge' className='[.active]:border-b-2'>
             Desafíos
