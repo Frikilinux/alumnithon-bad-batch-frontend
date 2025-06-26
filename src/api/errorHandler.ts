@@ -1,14 +1,24 @@
+import Cookies from 'js-cookie'
+
 const onError400 = (_error: any) => {
   alert('Error 400: Datos inválidos, revisa el formulario.')
 }
 
 const onError401 = (_error: any) => {
   alert('Error 401: No autorizado. Por favor inicia sesión.')
+  Cookies.remove('token') // Eliminar token si no está autorizado
+}
+
+const onError403 = (_error: any) => {
+  alert(
+    'Error 403: Acceso prohibido. No tienes permiso para realizar esta acción.'
+  )
 }
 
 const errorHandlers: Record<number, (error: any) => void> = {
   400: onError400,
   401: onError401,
+  403: onError403,
 }
 
 export const handleApiError = (error: any) => {

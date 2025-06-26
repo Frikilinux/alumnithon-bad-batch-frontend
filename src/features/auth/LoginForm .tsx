@@ -1,6 +1,7 @@
 import { useForm, type SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../../hooks/auth/useAuth'
 
 import FormField from './components/FormField'
 import FormButton from './components/FormButton'
@@ -25,9 +26,20 @@ const Login = () => {
   } = useForm<LoginSchemaType>({
     resolver: zodResolver(LoginSchema),
   })
+  const { login } = useAuth()
+  const navigate = useNavigate()
 
-  const onSubmit: SubmitHandler<LoginSchemaType> = (data) => {
+  const onSubmit: SubmitHandler<LoginSchemaType> = async (data) => {
     console.log('Datos enviados:', data)
+    const result = await login(data)
+
+    if (result.success) {
+      navigate('/')
+      console.log('Login exitoso')
+    } else {
+      // Mostrar error, por ejemplo con un estado local
+      console.error('Error en login:', result.message)
+    }
   }
 
   return (

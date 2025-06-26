@@ -2,11 +2,13 @@ import { create } from 'zustand'
 import { getCurrentUser } from '../services/authService'
 
 type User = {
-  id: string
-  email: string
-  name: string
+  id: number
+  firstName: string
+  lastName: string
+  role: string
+  email?: string
+  isActive: boolean
 }
-
 type AuthState = {
   user: User | null
   isLoading: boolean

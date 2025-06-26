@@ -1,6 +1,7 @@
 import { useForm, type SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import type { InputTypes } from '../../types/form'
+import { useNavigate } from 'react-router-dom'
 
 import FormField from './components/FormField'
 import {
@@ -9,6 +10,7 @@ import {
 } from './schemas/registerSchema'
 import { Button } from '../../components/ui/Button'
 import { Link } from 'react-router-dom'
+import { useAuth } from '../../hooks/auth/useAuth'
 
 const formFields: {
   label: string
@@ -22,6 +24,8 @@ const formFields: {
 ]
 
 const Register = () => {
+  const { registerApi } = useAuth()
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
@@ -31,10 +35,11 @@ const Register = () => {
   })
 
   const onSubmit: SubmitHandler<RegisterSchemaType> = async (data) => {
+    const finalData = { ...data, role: 'DEVELOPER' } // Asignar rol por defecto
     try {
-      console.log('Datos enviados:', data)
-      await new Promise((res) => setTimeout(res, 1000)) // Simula espera
+      registerApi(finalData)
       alert('Registro exitoso')
+      navigate('/login')
     } catch (error) {
       console.error('Error al registrar:', error)
     }

@@ -6,6 +6,7 @@ export type RegisterFormData = {
   password: string
   firstName: string
   lastName: string
+  role: string
 }
 
 export type LoginFormData = {
