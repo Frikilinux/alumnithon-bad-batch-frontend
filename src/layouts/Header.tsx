@@ -24,17 +24,22 @@ const NavBar = () => {
           </NavLink>
         </li>
         <li>
+          <NavLink to='/crear-perfil' className='[.active]:border-b-2'> Crear Perfil</NavLink>
+        </li>
 
-          <NavLink to='/crear-perfil' className='[.active]:border-b-2'>
-            Crear Perfil
-            
-          </NavLink>
-
-          <NavLink to='/mentorship' className='[.active]:border-b-2'>
+        <li>
+  <       NavLink to='/mentorship' className='[.active]:border-b-2'>
             Mentorías
 
           </NavLink>
         </li>
+
+
+
+        
+          <NavLink to='/perfil' className='[.active]:border-b-2'>
+            Perfil
+          </NavLink>
         <li>
           <NavLink to='/challenge' className='[.active]:border-b-2'>
             Desafíos
@@ -75,7 +80,7 @@ const UserButton = ({ onChatClick }: { onChatClick: () => void }) => {
       <button type='button'>
         <IconBell className='size-7 hover:cursor-pointer' />
       </button>
-      <NavLink to='/registro'>
+      <NavLink to='/UserPerfil'>
         <button
           data-tooltip-id='user-tooltip'
           type='button'
