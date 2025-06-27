@@ -1,20 +1,30 @@
-import { useMemo } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { getAllProfiles } from '../../services/profileService'
-import type { UserProfile, UserProfileFilter } from '../../types/user'
+import type {
+  UserProfile,
+  UserProfileFilter,
+  UserProfileApi,
+} from '../../types/user'
 
-const backendProfiles: UserProfile[] = (await getAllProfiles()).map((p) => ({
-  ...p,
-  stack: p.technologies,
-  experience: p.experienceLevel,
-  name: `${p.firstName} ${p.lastName}`,
-  title: p.bio || 'Desarrollador Full Stack',
-  description:
-    p.bio ||
-    'Apasionada por crear experiencias de usuario excepcionales. Especialista en React y TypeScript.',
-}))
+function mapProfile(p: UserProfileApi): UserProfile {
+  return {
+    ...p,
+    id: p.userId,
+    stack: p.technologies,
+    experience: p.experienceLevel,
+    name: `${p.firstName} ${p.lastName}`,
+    title: p.bio || 'Desarrollador Full Stack',
+    description:
+      p.bio ||
+      'Apasionada por crear experiencias de usuario excepcionales. Especialista en React y TypeScript.',
+  }
+}
 
-function mockBackendFetch(filters: UserProfileFilter): UserProfile[] {
-  const filtered = backendProfiles.filter((profile) => {
+function applyFilters(
+  profiles: UserProfile[],
+  filters: UserProfileFilter
+): UserProfile[] {
+  return profiles.filter((profile) => {
     if (filters.location && profile.location !== filters.location) return false
 
     if (
@@ -41,12 +51,35 @@ function mockBackendFetch(filters: UserProfileFilter): UserProfile[] {
 
     return true
   })
-
-  return filtered.map(({ ...profile }) => profile)
 }
 
 export const useFilteredProfiles = (filters: UserProfileFilter) => {
-  const data = useMemo(() => mockBackendFetch(filters), [filters])
+  const [profiles, setProfiles] = useState<UserProfile[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState(false)
+
+  useEffect(() => {
+    const fetchProfiles = async () => {
+      try {
+        setIsLoading(true)
+        const result = await getAllProfiles()
+        setProfiles(result.map(mapProfile))
+        setError(false)
+      } catch (err) {
+        console.error('Error loading profiles', err)
+        setError(true)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchProfiles()
+  }, [])
+
+  const data = useMemo(
+    () => applyFilters(profiles, filters),
+    [profiles, filters]
+  )
 
   const options = useMemo(() => {
     const stacks = new Set<string>()
@@ -54,7 +87,7 @@ export const useFilteredProfiles = (filters: UserProfileFilter) => {
     const locations = new Set<string>()
     const experiences = new Set<string>()
 
-    backendProfiles.forEach((profile) => {
+    profiles.forEach((profile) => {
       profile.stack.forEach((s) => stacks.add(s))
       profile.interests.forEach((i) => interests.add(i))
       locations.add(profile.location)
@@ -67,12 +100,12 @@ export const useFilteredProfiles = (filters: UserProfileFilter) => {
       location: Array.from(locations).sort(),
       experience: Array.from(experiences).sort(),
     }
-  }, [])
+  }, [profiles])
 
   return {
     data,
     options,
-    isLoading: false,
-    error: false,
+    isLoading,
+    error,
   }
 }

@@ -36,3 +36,16 @@ export type FormFieldProps<T extends RegisterFormData | LoginFormData> = {
   valueAsNumber?: boolean
   className?: string
 }
+
+export type CreateUserProfileData = {
+  bio: string
+  location: string
+  githubUrl: string | null
+  linkedinUrl: string | null
+  personalWebsite: string | null
+  experienceLevel: 'JUNIOR' | 'MID' | 'SENIOR' // puedes ajustar los valores válidos
+  visibility: 'PUBLIC' | 'PRIVATE'
+  technologies: string[]
+  interests: string[]
+  objectives: string
+}
