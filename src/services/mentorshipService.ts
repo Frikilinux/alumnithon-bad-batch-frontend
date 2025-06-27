@@ -34,8 +34,8 @@ export const getAllMentorships = async (
   // if (filters.location) queryParams.append('location', filters.location)
   // if (filters.experience) queryParams.append('experience', filters.experience)
 
-  if (filters.stack?.length) {
-    filters.stack.forEach((tech) => queryParams.append('stack', tech))
+  if (filters.requiredTechnologies?.length) {
+    filters.requiredTechnologies.forEach((tech) => queryParams.append('tech', tech))
   }
 
   // if (filters.interests?.length) {

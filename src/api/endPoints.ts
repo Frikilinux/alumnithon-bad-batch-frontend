@@ -12,6 +12,6 @@ export const endpoints = {
     getAll: '/profile/all',
   },
   mentorship: {
-    getAll: '/contents',
+    getAll: '/contents/search',
   },
 }

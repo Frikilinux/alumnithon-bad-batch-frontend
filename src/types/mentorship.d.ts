@@ -26,7 +26,7 @@ interface MentorshipResponse extends Mentorship {
 }
 
 export interface MentorshipFilter {
-  stack?: string[]
+  requiredTechnologies?: string[]
   difficulty?: BEGINNER | INTERMEDIATE | ADVANCED
 }
 

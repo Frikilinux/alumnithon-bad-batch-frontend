@@ -4,6 +4,7 @@ import SearchFilters from '../features/mentorship/components/SearchFilter'
 import PageBanner from '../components/ui/PageBanner'
 import { IconUsersGroup } from '@tabler/icons-react'
 import PageStats from '../components/ui/PageStats'
+import UnifiedFilters from '../shared/components/FilterComponent'
 
 export interface MentorshipFilter {
   tag?: string[]
@@ -44,10 +45,10 @@ const Mentorship = () => {
       <PageBanner {...bannerProps} />
       {/* <MentorshipHeader /> */}
       <PageStats stats={stats} />
-      <SearchFilters
-        filters={localFilters}
-        setFilters={setLocalFilters}
-        onApplyFilters={handleApplyFilters}
+      <UnifiedFilters
+        context='busqueda'
+        options={options}
+        onApply={(newFilters) => setFilters(newFilters)}
       />
       <MentorshipCardList filters={appliedFilters} />
     </div>
