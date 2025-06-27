@@ -43,7 +43,7 @@ export type CreateUserProfileData = {
   githubUrl: string | null
   linkedinUrl: string | null
   personalWebsite: string | null
-  experienceLevel: 'JUNIOR' | 'MID' | 'SENIOR' // puedes ajustar los valores válidos
+  experienceLevel: 'JUNIOR' | 'INTERMEDIATE' | 'SENIOR' // puedes ajustar los valores válidos
   visibility: 'PUBLIC' | 'PRIVATE'
   technologies: string[]
   interests: string[]

@@ -1,7 +1,10 @@
 import React from 'react'
-import { useForm, Controller } from 'react-hook-form'
-import { string, z } from 'zod'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useCreateProfile } from '../hooks/profile/useProfile'
+import type { CreateUserProfileData } from '../types/form'
+import { useNavigate } from 'react-router-dom'
 
 const VALID_TECHNOLOGIES = [
   'JAVA',
@@ -48,10 +51,10 @@ const MAX_INT = 5
 const perfilSchema = z.object({
   bio: z.string().max(500),
   location: z.string().max(100),
-  githubUrl: z.string().url().nullable().optional(),
-  linkedinUrl: z.string().url().nullable().optional(),
-  personalWebsite: z.string().url().nullable().optional(),
-  experienceLevel: z.enum(['JUNIOR', 'MID', 'SENIOR']),
+  githubUrl: z.string().nullable().optional(),
+  linkedinUrl: z.string().nullable().optional(),
+  personalWebsite: z.string().nullable().optional(),
+  experienceLevel: z.enum(['JUNIOR', 'INTERMEDIATE', 'SENIOR']),
   objectives: z.string().max(1000),
   technologies: z
     .array(z.enum(VALID_TECHNOLOGIES as [string, ...string[]]))
@@ -64,6 +67,8 @@ const perfilSchema = z.object({
 export type PerfilSchemaType = z.infer<typeof perfilSchema>
 
 const CreatePerfil: React.FC = () => {
+  const { createProfile, isLoading, error } = useCreateProfile()
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
@@ -101,17 +106,38 @@ const CreatePerfil: React.FC = () => {
     }
   }
 
-  const onSubmit = (data: PerfilSchemaType) => {
-    const PerfilData = {
-      ...data,
+  const onSubmit = async (data: PerfilSchemaType) => {
+    const PerfilData: CreateUserProfileData = {
+      bio: data.bio,
+      location: data.location,
+      githubUrl: data.githubUrl || null,
+      linkedinUrl: data.linkedinUrl || null,
+      personalWebsite: data.personalWebsite || null,
+      experienceLevel: data.experienceLevel,
+      objectives: data.objectives,
+      technologies: data.technologies,
+      interests: data.interests,
       visibility: 'PUBLIC',
     }
-    console.log('Payload:', PerfilData)
+
+    const result = await createProfile(PerfilData)
+
+    if (result) {
+      console.log('Perfil creado con éxito:', result)
+      navigate('/dashboard/userperfil')
+    }
   }
 
   return (
     <div className='mx-auto mt-10 max-w-3xl space-y-6 rounded-md bg-white p-6 shadow'>
       <h1 className='text-2xl font-bold text-gray-800'>Crear Perfil</h1>
+
+      {error && (
+        <p className='rounded bg-red-100 px-3 py-2 text-sm text-red-700'>
+          {error}
+        </p>
+      )}
+
       <form onSubmit={handleSubmit(onSubmit)} className='space-y-5'>
         <div>
           <label className='mb-1 block font-medium'>Biografía</label>
@@ -144,7 +170,7 @@ const CreatePerfil: React.FC = () => {
               {...register('experienceLevel')}
               className='w-full rounded border px-3 py-2 text-sm'>
               <option value='JUNIOR'>Junior</option>
-              <option value='MID'>Mid</option>
+              <option value='INTERMEDIATE'>Mid</option>
               <option value='SENIOR'>Senior</option>
             </select>
           </div>
@@ -231,8 +257,13 @@ const CreatePerfil: React.FC = () => {
         <div className='flex justify-end gap-2 pt-4'>
           <button
             type='submit'
-            className='rounded bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700'>
-            Guardar Perfil
+            disabled={isLoading}
+            className={`rounded px-4 py-2 text-sm text-white ${
+              isLoading
+                ? 'cursor-not-allowed bg-gray-400'
+                : 'bg-blue-600 hover:bg-blue-700'
+            }`}>
+            {isLoading ? 'Guardando...' : 'Guardar Perfil'}
           </button>
         </div>
       </form>

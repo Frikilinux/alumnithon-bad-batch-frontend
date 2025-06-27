@@ -15,10 +15,15 @@ const onError403 = (_error: any) => {
   )
 }
 
+const onError404 = (_error: any) => {
+  alert('Error 404: Recurso no encontrado.')
+}
+
 const errorHandlers: Record<number, (error: any) => void> = {
   400: onError400,
   401: onError401,
   403: onError403,
+  404: onError404,
 }
 
 export const handleApiError = (error: any) => {

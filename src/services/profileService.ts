@@ -1,5 +1,6 @@
 import { get, put, post } from '../api/apiService'
 import { endpoints } from '../api/endPoints'
+import type { CreateUserProfileData } from '../types/form'
 import type {
   UserProfileApi,
   UserProfile,
@@ -7,13 +8,15 @@ import type {
 } from '../types/user'
 
 // Obtener perfil del usuario autenticado
-export const getUserProfile = async (): Promise<UserProfile> => {
-  return await get<UserProfile>(endpoints.profile.getMe)
+export const getUserProfile = async (): Promise<UserProfileApi> => {
+  return await get<UserProfileApi>(endpoints.profile.getMe)
 }
 
 //crear perfil de usuario
-export const createUserProfile = async (): Promise<UserProfileApi> => {
-  return await post<UserProfileApi>(endpoints.profile.getMe, {})
+export const createUserProfile = async (
+  data: CreateUserProfileData
+): Promise<CreateUserProfileData> => {
+  return await post<CreateUserProfileData>(endpoints.profile.create, data)
 }
 
 // Actualizar datos del perfil del usuario

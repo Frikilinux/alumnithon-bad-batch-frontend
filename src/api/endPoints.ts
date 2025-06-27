@@ -6,8 +6,8 @@ export const endpoints = {
     user: '/auth',
   },
   profile: {
-    getMe: '/profile/me',
-    update: '/profile/update',
+    getMe: '/profiles/me',
+    update: '/profile/me',
     getById: (id: string) => `/profile/${id}`,
     getAll: '/profiles/search',
     create: '/profiles',
