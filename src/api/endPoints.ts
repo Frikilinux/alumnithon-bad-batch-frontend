@@ -11,4 +11,7 @@ export const endpoints = {
     getById: (id: string) => `/profile/${id}`,
     getAll: '/profile/all',
   },
+  mentorship: {
+    getAll: '/contents',
+  },
 }
