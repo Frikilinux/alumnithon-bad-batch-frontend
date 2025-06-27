@@ -35,7 +35,9 @@ export const getAllMentorships = async (
   // if (filters.experience) queryParams.append('experience', filters.experience)
 
   if (filters.requiredTechnologies?.length) {
-    filters.requiredTechnologies.forEach((tech) => queryParams.append('tech', tech))
+    filters.requiredTechnologies.forEach((tech) =>
+      queryParams.append('tech', tech)
+    )
   }
 
   // if (filters.interests?.length) {
@@ -49,5 +51,6 @@ export const getAllMentorships = async (
     ? `${endpoints.mentorship.getAll}?${queryString}`
     : endpoints.mentorship.getAll
 
+  // Poner paginación en el back
   return await get<MentorshipResponse[]>(url)
 }
