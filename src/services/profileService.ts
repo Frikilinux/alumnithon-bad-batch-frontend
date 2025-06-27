@@ -1,7 +1,10 @@
-// src/api/user.ts
 import { get, put } from '../api/apiService'
 import { endpoints } from '../api/endPoints'
-import type { UserProfile, UserProfileFilter } from '../types/user'
+import type {
+  UserProfileApi,
+  UserProfile,
+  UserProfileFilter,
+} from '../types/user'
 
 // Obtener perfil del usuario autenticado
 export const getUserProfile = async (): Promise<UserProfile> => {
@@ -26,7 +29,7 @@ export const getUserById = async (id: string): Promise<UserProfile> => {
 // Obtener todos los perfiles de usuario con filtros opcionales
 export const getAllProfiles = async (
   filters: UserProfileFilter = {}
-): Promise<UserProfile[]> => {
+): Promise<UserProfileApi[]> => {
   const queryParams = new URLSearchParams()
 
   if (filters.location) queryParams.append('location', filters.location)
@@ -47,5 +50,7 @@ export const getAllProfiles = async (
     ? `${endpoints.profile.getAll}?${queryString}`
     : endpoints.profile.getAll
 
-  return await get<UserProfile[]>(url)
+  const response = await get<{ content: UserProfileApi[] }>(url)
+  console.log(response.content)
+  return response.content
 }
