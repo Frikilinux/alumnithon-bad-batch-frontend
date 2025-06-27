@@ -9,6 +9,6 @@ export const endpoints = {
     getMe: '/profile/me',
     update: '/profile/update',
     getById: (id: string) => `/profile/${id}`,
-    getAll: '/profile/all',
+    getAll: '/profiles/search',
   },
 }
