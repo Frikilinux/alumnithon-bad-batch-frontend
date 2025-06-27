@@ -61,8 +61,8 @@ const MentorshipCard = ({ mentorship }: { mentorship: MentorshipResponse }) => {
         <div className='mb-4 flex items-center gap-1 text-gray-600'>
           <IconUsers />
           <span>
-            {mentorship.maxParticipants - 5}/{mentorship.maxParticipants} plazas
-            disponibles
+            {mentorship.maxParticipants - 10}/{mentorship.maxParticipants}{' '}
+            plazas disponibles
           </span>
         </div>
 

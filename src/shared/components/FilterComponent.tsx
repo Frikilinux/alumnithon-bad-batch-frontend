@@ -65,7 +65,7 @@ const FILTERS_CONFIG: Record<string, FilterOption[]> = {
   ],
   mentorship: [
     {
-      name: 'tech',
+      name: 'stack',
       label: 'Tecnologías',
       type: 'tags',
     },

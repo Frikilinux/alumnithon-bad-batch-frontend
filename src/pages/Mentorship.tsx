@@ -44,6 +44,8 @@ const Mentorship = () => {
     isLoading,
   } = useFilteredMentorship(filters)
 
+  console.log(options)
+
   return (
     <div className='bg-[#F8FAFC]'>
       <PageBanner {...bannerProps} />
