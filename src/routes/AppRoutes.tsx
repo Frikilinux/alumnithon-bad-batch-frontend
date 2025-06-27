@@ -19,7 +19,17 @@ export const Routes = [
     children: [
       { index: true, element: <Home /> },
       { path: 'about', element: <About /> },
-      { path: 'mentorship', element: <Mentorship /> },
+      {
+        path: '/mentorship',
+        element: <ProtectedRoute />,
+        children: [
+          {
+            index: true,
+            element: <Mentorship />,
+          },
+        ],
+      },
+      // { path: 'mentorship', element: <Mentorship /> },
       { path: 'crear-perfil', element: <CreatePerfil /> },
       { path: 'UserPerfil', element: <UserProfilePage /> },
       { path: 'challenge', element: <Challenge /> },

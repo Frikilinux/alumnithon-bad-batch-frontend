@@ -5,7 +5,7 @@ import type {
   MentorshipResponse,
 } from '../../types/mentorship'
 import { getAllMentorships } from '../../services/mentorshipService'
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 // export const useFilteredMentorship = (filters: MentorshipFilter) => {
 //   return useQuery<MentorshipResponse[]>({
@@ -15,11 +15,33 @@ import { useMemo } from 'react'
 //   })
 // }
 
-const backMentorship: MentorshipResponse[] = await getAllMentorships()
+// const backMentorship: MentorshipResponse[] = await getAllMentorships()
 
 export const useFilteredMentorship = (filters: MentorshipFilter) => {
+  const [mentorships, setMentorShips] = useState<MentorshipResponse[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState(false)
+
+  useEffect(() => {
+    const fetchProfiles = async () => {
+      try {
+        setIsLoading(true)
+        // const result = await getAllMentorships()
+        setMentorShips(await getAllMentorships())
+        setError(false)
+      } catch (err) {
+        console.error('Error loading profiles', err)
+        setError(true)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchProfiles()
+  }, [])
+
   const filtered = (filters: MentorshipFilter) => {
-    const mentorshipFilters = backMentorship.filter((mentorship) => {
+    const mentorshipFilters = mentorships.filter((mentorship) => {
       if (
         filters.requiredTechnologies &&
         filters.requiredTechnologies.length > 0 &&
@@ -54,7 +76,7 @@ export const useFilteredMentorship = (filters: MentorshipFilter) => {
   return {
     data,
     options,
-    isLoading: false,
-    error: false,
+    isLoading,
+    error,
   }
 }

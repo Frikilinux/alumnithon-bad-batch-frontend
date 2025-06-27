@@ -1,3 +1,4 @@
+import { useAuthStore } from '../../../stores/authStore'
 import type { MentorshipResponse } from '../../../types/mentorship'
 // import type { Mentorship } from '../constants/mentorships'
 // import { category } from '../constants/mentorships'
@@ -16,6 +17,10 @@ const DIFFICULTY = {
 } as const
 
 const MentorshipCard = ({ mentorship }: { mentorship: MentorshipResponse }) => {
+  const user = useAuthStore((state) => state.user)
+
+  console.log('user', user)
+
   const getParticipantsPercentage = (): number => {
     if (mentorship.maxParticipants === 0) return 0
     const percentage = (10 / mentorship.maxParticipants) * 100

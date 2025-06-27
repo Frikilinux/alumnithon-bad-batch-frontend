@@ -13,6 +13,10 @@ export const endpoints = {
     create: '/profiles',
   },
   mentorship: {
-    getAll: '/contents/search',
+    getAll: '/contents/search?type=MENTORSHIP',
+    join: (id: string) => `/contents/${id}/join`,
+  },
+  challenge: {
+    getAll: '/contents/search?type=CHALLENGE',
   },
 }

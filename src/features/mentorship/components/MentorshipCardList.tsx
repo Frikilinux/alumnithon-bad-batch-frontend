@@ -14,27 +14,21 @@ const MentorshipCardList: React.FC<Props> = ({ isLoading, mentorships }) => {
   const [currentPage, setCurrentPage] = useState(1)
   const mentorshipsPerPage = 8
 
-  // console.log('Filters applied:', filters.tag)
-
-  // const filterByTags = (): Mentorship[] => {
-  //   if (!filters.tag || filters.tag.length === 0) return mentorships
-
-  //   const filterTagsLower = filters.tag.map((tag) => tag.toLowerCase())
-
-  //   return mentorships.filter((mentorship) =>
-  //     mentorship.tags.some((tag) => filterTagsLower.includes(tag.toLowerCase()))
-  //   )
-  // }
-
   const totalPages = Math.ceil(mentorships.length / mentorshipsPerPage)
   const paginatedMentorship = mentorships.slice(
     (currentPage - 1) * mentorshipsPerPage,
     currentPage * mentorshipsPerPage
   )
 
-  if (isLoading) return <p>Cargando perfiles...</p>
+  if (isLoading) return <p>Cargando mentorías...</p>
   if (!isLoading && mentorships.length === 0)
-    return <p>No se encontraron perfiles que coincidan.</p>
+    return (
+      <div className='flex h-96 items-center justify-center'>
+        <p className='text-2xl'>
+          No se encontraron mentorías que coincidan. :(
+        </p>
+      </div>
+    )
 
   return (
     <section className='m-2 md:m-8'>
