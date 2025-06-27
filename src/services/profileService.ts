@@ -1,4 +1,4 @@
-import { get, put } from '../api/apiService'
+import { get, put, post } from '../api/apiService'
 import { endpoints } from '../api/endPoints'
 import type {
   UserProfileApi,
@@ -9,6 +9,11 @@ import type {
 // Obtener perfil del usuario autenticado
 export const getUserProfile = async (): Promise<UserProfile> => {
   return await get<UserProfile>(endpoints.profile.getMe)
+}
+
+//crear perfil de usuario
+export const createUserProfile = async (): Promise<UserProfileApi> => {
+  return await post<UserProfileApi>(endpoints.profile.getMe, {})
 }
 
 // Actualizar datos del perfil del usuario

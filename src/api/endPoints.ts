@@ -10,5 +10,6 @@ export const endpoints = {
     update: '/profile/update',
     getById: (id: string) => `/profile/${id}`,
     getAll: '/profiles/search',
+    create: '/profiles',
   },
 }
