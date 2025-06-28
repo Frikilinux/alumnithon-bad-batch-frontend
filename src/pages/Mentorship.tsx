@@ -4,10 +4,13 @@ import SearchFilters from '../features/mentorship/components/SearchFilter'
 import PageBanner from '../components/ui/PageBanner'
 import { IconUsersGroup } from '@tabler/icons-react'
 import PageStats from '../components/ui/PageStats'
+import UnifiedFilters from '../shared/components/FilterComponent'
+import { useFilteredMentorship } from '../hooks/mentorship/useFilteredMentorship'
+import type { MentorshipFilter } from '../types/mentorship'
 
-export interface MentorshipFilter {
-  tag?: string[]
-}
+// export interface MentorshipFilter {
+//   tag?: string[]
+// }
 
 const stats = [
   { label: 'Mentores Activos', value: '1,245' },
@@ -33,23 +36,30 @@ const bannerProps = {
 }
 
 const Mentorship = () => {
-  const [localFilters, setLocalFilters] = useState<MentorshipFilter>({})
-  const [appliedFilters, setAppliedFilters] = useState<MentorshipFilter>({})
+  const [filters, setFilters] = useState<MentorshipFilter>({})
 
-  const handleApplyFilters = () => {
-    setAppliedFilters(localFilters)
-  }
+  const {
+    data: mentorships,
+    options,
+    isLoading,
+  } = useFilteredMentorship(filters)
+
+  console.log(options)
+
   return (
     <div className='bg-[#F8FAFC]'>
       <PageBanner {...bannerProps} />
       {/* <MentorshipHeader /> */}
       <PageStats stats={stats} />
-      <SearchFilters
-        filters={localFilters}
-        setFilters={setLocalFilters}
-        onApplyFilters={handleApplyFilters}
-      />
-      <MentorshipCardList filters={appliedFilters} />
+      {!isLoading && (
+        <UnifiedFilters
+          context='mentorship'
+          options={options}
+          onApply={(newFilters) => setFilters(newFilters)}
+        />
+      )}
+
+      <MentorshipCardList mentorships={mentorships} isLoading={isLoading} />
     </div>
   )
 }

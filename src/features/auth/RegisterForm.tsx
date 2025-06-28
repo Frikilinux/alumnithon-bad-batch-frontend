@@ -11,6 +11,7 @@ import {
 import { Button } from '../../components/ui/Button'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../hooks/auth/useAuth'
+import { Toaster } from 'sonner'
 
 const formFields: {
   label: string
@@ -47,6 +48,7 @@ const Register = () => {
 
   return (
     <div className='flex min-h-screen w-full items-center justify-center bg-gray-900 p-4'>
+      <Toaster richColors />
       <div className='w-full max-w-md rounded-xl border border-gray-700 bg-gray-800 p-8 shadow-xl'>
         <div className='mb-10 text-center'>
           <h1 className='text-3xl font-light tracking-tight text-white'>

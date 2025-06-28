@@ -1,16 +1,33 @@
-import type { Mentorship } from '../constants/mentorships'
-import { category } from '../constants/mentorships'
+import { useAuthStore } from '../../../stores/authStore'
+import type { MentorshipResponse } from '../../../types/mentorship'
+// import type { Mentorship } from '../constants/mentorships'
+// import { category } from '../constants/mentorships'
 import { IconAlarm, IconCalendar, IconUsers } from '@tabler/icons-react'
 
-const MentorshipCard = ({ mentorship }: { mentorship: Mentorship }) => {
+const DIFFICULTY = {
+  INTERMEDIATE: {
+    color: 'bg-orange-400',
+  },
+  BEGINNER: {
+    color: 'bg-green-400',
+  },
+  ADVANCED: {
+    color: 'bg-red-400',
+  },
+} as const
+
+const MentorshipCard = ({ mentorship }: { mentorship: MentorshipResponse }) => {
+  const user = useAuthStore((state) => state.user)
+
+  console.log('user', user)
+
   const getParticipantsPercentage = (): number => {
     if (mentorship.maxParticipants === 0) return 0
-    const percentage =
-      (mentorship.participants / mentorship.maxParticipants) * 100
+    const percentage = (10 / mentorship.maxParticipants) * 100
     return Math.min(100, Math.max(0, Math.round(percentage)))
   }
 
-  const date = new Date(mentorship.date).toLocaleDateString('es-ES', {
+  const date = new Date(mentorship.startDate).toLocaleDateString('es-ES', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
@@ -18,17 +35,19 @@ const MentorshipCard = ({ mentorship }: { mentorship: Mentorship }) => {
 
   return (
     <div className='mentorship-card overflow-hidden rounded-xl bg-white shadow-md'>
-      <div className={`${category[mentorship.category].color} h-3`}></div>
+      <div
+        className={`${DIFFICULTY[mentorship.difficulty as keyof typeof DIFFICULTY]?.color ?? 'bg-gray-400'} h-3`}></div>
       <div className='p-6'>
         <div className='mb-4 flex items-center'>
           <img
-            src={mentorship.avatarUrl}
+            src='https://randomuser.me/api/portraits/women/1.jpg'
             alt='Mentor'
             className='border-primary-100 mr-4 h-12 w-12 rounded-full border-2'
           />
           <div>
-            <h3 className='text-lg font-bold'>{mentorship.username}</h3>
-            <p className='text-sm text-gray-600'>{mentorship.expertise}</p>
+            <h3 className='text-lg font-bold'>{mentorship.creatorName}</h3>
+            {/* Consulta la profile */}
+            <p className='text-sm text-gray-600'>Data science HARCODED</p>
           </div>
         </div>
         <h4 className='mb-2 text-xl font-semibold'>{mentorship.title}</h4>
@@ -41,14 +60,14 @@ const MentorshipCard = ({ mentorship }: { mentorship: Mentorship }) => {
 
         <div className='mb-4 flex items-center gap-1 text-gray-600'>
           <IconAlarm />
-          <span>{mentorship.time}</span>
+          <span>{mentorship.durationMinutes}</span>
         </div>
 
         <div className='mb-4 flex items-center gap-1 text-gray-600'>
           <IconUsers />
           <span>
-            {mentorship.maxParticipants - mentorship.participants}/
-            {mentorship.maxParticipants} plazas disponibles
+            {mentorship.maxParticipants - 10}/{mentorship.maxParticipants}{' '}
+            plazas disponibles
           </span>
         </div>
 
@@ -61,7 +80,7 @@ const MentorshipCard = ({ mentorship }: { mentorship: Mentorship }) => {
         </div>
 
         <div className='mb-4 flex flex-wrap gap-2'>
-          {mentorship.tags.map((tag, index) => {
+          {mentorship.requiredTechnologies.map((tag, index) => {
             return (
               <span
                 key={`${tag}-${index}}`}

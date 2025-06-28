@@ -6,9 +6,17 @@ export const endpoints = {
     user: '/auth',
   },
   profile: {
-    getMe: '/profile/me',
-    update: '/profile/update',
+    getMe: '/profiles/me',
+    update: '/profile/me',
     getById: (id: string) => `/profile/${id}`,
-    getAll: '/profile/all',
+    getAll: '/profiles/search',
+    create: '/profiles',
+  },
+  mentorship: {
+    getAll: '/contents/search?type=MENTORSHIP',
+    join: (id: string) => `/contents/${id}/join`,
+  },
+  challenge: {
+    getAll: '/contents/search?type=CHALLENGE',
   },
 }

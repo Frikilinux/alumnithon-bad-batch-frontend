@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import ProfileCard from './ProfileCard'
 import Pagination from './ProfilePagination'
-import type { UserProfile } from '../../hooks/profile/useFilteredUsertest'
+import type { UserProfile } from '../../hooks/profile/useFilteredProfile'
 
 type Props = {
   profiles: UserProfile[]

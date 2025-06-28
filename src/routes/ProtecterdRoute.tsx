@@ -7,9 +7,15 @@ const ProtectedRoute = () => {
 
   useEffect(() => {
     checkAuth()
-  }, [])
+  }, [checkAuth])
 
-  if (isLoading) return <p className='text-red'>Cargando...</p>
+  if (isLoading) {
+    return (
+      <div className='flex min-h-screen items-center justify-center'>
+        <p className='animate-pulse text-gray-600'>Verificando sesión...</p>
+      </div>
+    )
+  }
 
   return user ? <Outlet /> : <Navigate to='/login' replace />
 }

@@ -11,14 +11,14 @@ type FilterOption = {
 }
 
 type OptionsType = {
-  stack: string[]
-  interests: string[]
-  location: string[]
-  experience: string[]
+  stack?: string[]
+  interests?: string[]
+  location?: string[]
+  experience?: string[]
 }
 
 type UnifiedFiltersProps = {
-  context: 'busqueda' | 'desafios' | 'mentorias'
+  context: 'busqueda' | 'desafios' | 'mentorship'
   options: OptionsType
   onApply: (filters: Record<string, string | boolean | string[]>) => void
 }
@@ -63,17 +63,17 @@ const FILTERS_CONFIG: Record<string, FilterOption[]> = {
       type: 'select',
     },
   ],
-  mentorias: [
+  mentorship: [
     {
-      name: 'especialidad',
-      label: 'Especialidad',
-      type: 'select',
+      name: 'stack',
+      label: 'Tecnologías',
+      type: 'tags',
     },
-    {
-      name: 'tecnologia',
-      label: 'Tecnología',
-      type: 'select',
-    },
+    // {
+    //   name: 'tecnologia',
+    //   label: 'Tecnología',
+    //   type: 'select',
+    // },
   ],
 }
 

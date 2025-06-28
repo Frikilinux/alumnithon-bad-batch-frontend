@@ -5,6 +5,7 @@ import type { CustomAxiosRequestConfig } from '../types/auth'
 
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8080/api',
+  // baseURL: 'https://alumnithon-bad-batch-backend.onrender.com/api',
   headers: {
     'Content-Type': 'application/json',
   },

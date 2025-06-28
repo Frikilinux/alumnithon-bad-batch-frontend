@@ -1,145 +1,274 @@
-import React from "react";
-import {
-  FaUser,
-  FaTools,
-  FaBriefcase,
-  FaUsers,
-  FaLock,
-  FaCamera,
-} from "react-icons/fa";
+import React from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useCreateProfile } from '../hooks/profile/useProfile'
+import type { CreateUserProfileData } from '../types/form'
+import { useNavigate } from 'react-router-dom'
 
-// Componente reutilizable para campos de texto
-type InputProps = {
-  label: string;
-  placeholder?: string;
-};
+const VALID_TECHNOLOGIES = [
+  'JAVA',
+  'PYTHON',
+  'JAVASCRIPT',
+  'TYPESCRIPT',
+  'REACT',
+  'VUE',
+  'ANGULAR',
+  'NODEJS',
+  'SPRING_BOOT',
+  'DJANGO',
+  'FLASK',
+  'DOCKER',
+  'KUBERNETES',
+  'AWS',
+  'AZURE',
+  'GCP',
+  'MYSQL',
+  'POSTGRESQL',
+  'MONGODB',
+  'REDIS',
+]
 
-function Input({ label, placeholder = "" }: InputProps) {
-  return (
-    <div>
-      <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
-      <input
-        type="text"
-        placeholder={placeholder}
-        className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
-      />
-    </div>
-  );
-}
+const VALID_INTERESTS = [
+  'BACKEND',
+  'FRONTEND',
+  'FULLSTACK',
+  'DEVOPS',
+  'CLOUD',
+  'AI_ML',
+  'MOBILE',
+  'GAME_DEVELOPMENT',
+  'DATA_SCIENCE',
+  'CYBERSECURITY',
+  'UI_UX',
+  'ARCHITECTURE',
+  'TESTING',
+]
 
-// Componente para ítems del menú lateral
-function SidebarItem({
-  text,
-  icon,
-  active = false,
-}: {
-  text: string;
-  icon: React.ReactNode;
-  active?: boolean;
-}) {
-  return (
-    <div
-      className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm cursor-pointer transition ${
-        active
-          ? "bg-blue-100 text-blue-700 font-semibold"
-          : "text-gray-700 hover:bg-gray-100"
-      }`}
-    >
-      <span className={`text-base ${active ? "text-blue-600" : "text-gray-500"}`}>{icon}</span>
-      {text}
-    </div>
-  );
-}
+const MAX_TECH = 10
+const MAX_INT = 5
+
+const perfilSchema = z.object({
+  bio: z.string().max(500),
+  location: z.string().max(100),
+  githubUrl: z.string().nullable().optional(),
+  linkedinUrl: z.string().nullable().optional(),
+  personalWebsite: z.string().nullable().optional(),
+  experienceLevel: z.enum(['JUNIOR', 'INTERMEDIATE', 'SENIOR']),
+  objectives: z.string().max(1000),
+  technologies: z
+    .array(z.enum(VALID_TECHNOLOGIES as [string, ...string[]]))
+    .max(MAX_TECH),
+  interests: z
+    .array(z.enum(VALID_INTERESTS as [string, ...string[]]))
+    .max(MAX_INT),
+})
+
+export type PerfilSchemaType = z.infer<typeof perfilSchema>
 
 const CreatePerfil: React.FC = () => {
+  const { createProfile, isLoading, error } = useCreateProfile()
+  const navigate = useNavigate()
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useForm<PerfilSchemaType>({
+    resolver: zodResolver(perfilSchema),
+    defaultValues: {
+      bio: '',
+      location: '',
+      githubUrl: '',
+      linkedinUrl: '',
+      personalWebsite: '',
+      experienceLevel: 'JUNIOR',
+      objectives: '',
+      technologies: [],
+      interests: [],
+    },
+  })
+
+  const techs = watch('technologies')
+  const ints = watch('interests')
+
+  const toggleArrayItem = (
+    field: 'technologies' | 'interests',
+    value: string,
+    max: number
+  ) => {
+    const current = watch(field)
+    if (current.includes(value)) {
+      setValue(field, current.filter((i) => i !== value) as any)
+    } else if (current.length < max) {
+      setValue(field, [...current, value] as any)
+    }
+  }
+
+  const onSubmit = async (data: PerfilSchemaType) => {
+    const PerfilData: CreateUserProfileData = {
+      bio: data.bio,
+      location: data.location,
+      githubUrl: data.githubUrl || null,
+      linkedinUrl: data.linkedinUrl || null,
+      personalWebsite: data.personalWebsite || null,
+      experienceLevel: data.experienceLevel,
+      objectives: data.objectives,
+      technologies: data.technologies,
+      interests: data.interests,
+      visibility: 'PUBLIC',
+    }
+
+    const result = await createProfile(PerfilData)
+
+    if (result) {
+      console.log('Perfil creado con éxito:', result)
+      navigate('/dashboard/userperfil')
+    }
+  }
+
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <div className="max-w-7xl mx-auto space-y-6">
-        {/* Encabezado general */}
-        <div className="flex justify-between items-start">
+    <div className='mx-auto mt-10 max-w-3xl space-y-6 rounded-md bg-white p-6 shadow'>
+      <h1 className='text-2xl font-bold text-gray-800'>Crear Perfil</h1>
+
+      {error && (
+        <p className='rounded bg-red-100 px-3 py-2 text-sm text-red-700'>
+          {error}
+        </p>
+      )}
+
+      <form onSubmit={handleSubmit(onSubmit)} className='space-y-5'>
+        <div>
+          <label className='mb-1 block font-medium'>Biografía</label>
+          <textarea
+            {...register('bio')}
+            className='w-full rounded border px-3 py-2 text-sm'
+            rows={4}
+          />
+          {errors.bio && (
+            <p className='text-sm text-red-500'>{errors.bio.message}</p>
+          )}
+        </div>
+
+        <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
           <div>
-            <h1 className="text-2xl font-bold text-gray-800">Crear Perfil</h1>
-            <p className="text-gray-500 text-sm">
-              Completa tu información para que otros desarrolladores puedan conocerte
-            </p>
+            <label className='mb-1 block font-medium'>Ubicación</label>
+            <input
+              {...register('location')}
+              className='w-full rounded border px-3 py-2 text-sm'
+            />
+            {errors.location && (
+              <p className='text-sm text-red-500'>{errors.location.message}</p>
+            )}
           </div>
-          <div className="space-x-2">
-            <button className="px-4 py-2 text-sm bg-blue-600 text-white rounded hover:bg-blue-700">
-              ✓ Guardar Perfil
-            </button>
-            <button className="px-4 py-2 text-sm border bg-white border-gray-300 rounded hover:bg-gray-100 text-gray-700">
-              ✕ Cancelar
-            </button>
-            
+          <div>
+            <label className='mb-1 block font-medium'>
+              Nivel de experiencia
+            </label>
+            <select
+              {...register('experienceLevel')}
+              className='w-full rounded border px-3 py-2 text-sm'>
+              <option value='JUNIOR'>Junior</option>
+              <option value='INTERMEDIATE'>Mid</option>
+              <option value='SENIOR'>Senior</option>
+            </select>
           </div>
         </div>
 
-        {/* Contenido principal con sidebar y formulario */}
-        <div className="flex flex-col md:flex-row gap-6">
-          {/* Sidebar */}
-          <aside className="w-full md:w-1/4 flex flex-col items-center">
-  {/* Cabecera azul */}
-  <div className="w-full bg-[#0E73A7] flex flex-col items-center py-6 rounded-t-lg">
-    <div className="relative">
-      <div className="w-20 h-20 rounded-full bg-gray-300 overflow-hidden flex items-center justify-center">
-        <img
-          src="https://via.placeholder.com/80"
-          alt="perfil"
-          className="object-cover w-full h-full"
-        />
-      </div>
-      <div className="absolute bottom-0 right-0 bg-white p-1 rounded-full border shadow">
-        <FaCamera className="text-blue-600 text-xs" />
-      </div>
-    </div>
-    <h2 className="text-white font-semibold mt-3 text-base">Tu Nombre</h2>
-    <p className="text-white/90 text-sm">Tu Título Profesional</p>
-  </div>
-
-  {/* Menú blanco */}
-  <div className="w-full">
-    <div className="bg-white rounded-b-lg shadow p-4 space-y-2">
-      <SidebarItem text="Información Personal" icon={<FaUser />} active />
-      <SidebarItem text="Habilidades y Tecnologías" icon={<FaTools />} />
-      <SidebarItem text="Experiencia y Objetivos" icon={<FaBriefcase />} />
-      <SidebarItem text="Redes Sociales" icon={<FaUsers />} />
-      <SidebarItem text="Privacidad y Seguridad" icon={<FaLock />} />
-    </div>
-  </div>
-</aside>
-
-
-          {/* Formulario */}
-          <main className="w-full md:w-3/4">
-            <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-lg font-semibold text-gray-800 mb-4">Información Personal</h2>
-              <form className="space-y-5">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <Input label="Nombre" placeholder="Tu nombre" />
-                  <Input label="Apellidos" placeholder="Tus apellidos" />
-                  <Input label="Título Profesional" placeholder="Ej: Frontend Developer" />
-                  <Input label="Correo Electrónico" placeholder="tu@email.com" />
-                  <Input label="Ubicación" placeholder="Ciudad, País" />
-                  <Input label="Idiomas" placeholder="Español, Inglés, etc." />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Biografía</label>
-                  <textarea
-                    rows={4}
-                    maxLength={300}
-                    placeholder="Cuéntanos sobre ti, tu experiencia y tus intereses profesionales..."
-                    className="w-full border border-gray-300 rounded-md p-2 text-sm"
-                  />
-                  <p className="text-right text-sm text-gray-400 mt-1">Máximo 300 caracteres</p>
-                </div>
-              </form>
-            </div>
-          </main>
+        <div>
+          <label className='mb-1 block font-medium'>Objetivos</label>
+          <textarea
+            {...register('objectives')}
+            className='w-full rounded border px-3 py-2 text-sm'
+            rows={3}
+          />
         </div>
-      </div>
-    </div>
-  );
-};
 
-export default CreatePerfil;
+        <div className='grid grid-cols-1 gap-4 md:grid-cols-3'>
+          <div>
+            <label className='mb-1 block font-medium'>GitHub</label>
+            <input
+              {...register('githubUrl')}
+              type='url'
+              className='w-full rounded border px-3 py-2 text-sm'
+            />
+          </div>
+          <div>
+            <label className='mb-1 block font-medium'>LinkedIn</label>
+            <input
+              {...register('linkedinUrl')}
+              type='url'
+              className='w-full rounded border px-3 py-2 text-sm'
+            />
+          </div>
+          <div>
+            <label className='mb-1 block font-medium'>Sitio Personal</label>
+            <input
+              {...register('personalWebsite')}
+              type='url'
+              className='w-full rounded border px-3 py-2 text-sm'
+            />
+          </div>
+        </div>
+
+        <div>
+          <label className='mb-2 block font-semibold'>
+            Tecnologías (máx. {MAX_TECH})
+          </label>
+          <div className='flex flex-wrap gap-2'>
+            {VALID_TECHNOLOGIES.map((tech) => (
+              <button
+                type='button'
+                key={tech}
+                onClick={() => toggleArrayItem('technologies', tech, MAX_TECH)}
+                className={`rounded-full border px-3 py-1 text-sm ${
+                  techs.includes(tech)
+                    ? 'border-blue-600 bg-blue-600 text-white'
+                    : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-100'
+                }`}>
+                {tech}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <label className='mb-2 block font-semibold'>
+            Intereses (máx. {MAX_INT})
+          </label>
+          <div className='flex flex-wrap gap-2'>
+            {VALID_INTERESTS.map((interest) => (
+              <button
+                type='button'
+                key={interest}
+                onClick={() => toggleArrayItem('interests', interest, MAX_INT)}
+                className={`rounded-full border px-3 py-1 text-sm ${
+                  ints.includes(interest)
+                    ? 'border-green-600 bg-green-600 text-white'
+                    : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-100'
+                }`}>
+                {interest}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className='flex justify-end gap-2 pt-4'>
+          <button
+            type='submit'
+            disabled={isLoading}
+            className={`rounded px-4 py-2 text-sm text-white ${
+              isLoading
+                ? 'cursor-not-allowed bg-gray-400'
+                : 'bg-blue-600 hover:bg-blue-700'
+            }`}>
+            {isLoading ? 'Guardando...' : 'Guardar Perfil'}
+          </button>
+        </div>
+      </form>
+    </div>
+  )
+}
+
+export default CreatePerfil
