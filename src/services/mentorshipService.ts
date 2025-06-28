@@ -1,5 +1,5 @@
 // src/api/user.ts
-import { get, post } from '../api/apiService'
+import { get } from '../api/apiService'
 import { endpoints } from '../api/endPoints'
 // import type { MentorshipFilter } from '../pages/Mentorship'
 import type { MentorshipFilter, MentorshipResponse } from '../types/mentorship'
@@ -55,12 +55,12 @@ export const getAllMentorships = async (
   return await get<MentorshipResponse[]>(url)
 }
 
-const JoinToContent = async ({
-  contentId,
-  userId,
-}: {
-  contentId: string
-  userId: string
-}) => {
-  return await post(`${endpoints.mentorship.join(contentId)}?userId=${userId}`)
-}
+// const JoinToContent = async ({
+//   contentId,
+//   userId,
+// }: {
+//   contentId: string
+//   userId: string
+// }) => {
+//   return await post(`${endpoints.mentorship.join(contentId)}?userId=${userId}`)
+// }

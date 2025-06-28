@@ -8,7 +8,7 @@ import FormButton from './components/FormButton'
 import { LoginSchema, type LoginSchemaType } from './schemas/loginSchema'
 
 import type { InputTypes } from '../../types/form'
-import { toast, Toaster } from 'sonner'
+import { Toaster } from 'sonner'
 
 const formFields: {
   label: string
