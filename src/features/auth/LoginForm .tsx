@@ -34,10 +34,9 @@ const Login = () => {
     const result = await login(data)
 
     if (result.success) {
-      navigate('/')
+      navigate('/dashboard')
       console.log('Login exitoso')
     } else {
-      // Mostrar error, por ejemplo con un estado local
       console.error('Error en login:', result.message)
     }
   }

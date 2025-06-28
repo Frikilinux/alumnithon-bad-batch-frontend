@@ -10,43 +10,35 @@ import Perfil from '../pages/Profile'
 import CreatePerfil from '../pages/CreatePerfil'
 import UserProfilePage from '../pages/UserProfilePage'
 import Challenge from '../pages/Challenge'
+import Landing from '../pages/LandingPage'
+import LandingLayout from '../layouts/LandingLayout'
 
 export const Routes = [
-  // Rutas públicas
+  // Rutas públicas sin protección
   {
     path: '/',
-    element: <MainLayout />,
-    children: [
-      { index: true, element: <Home /> },
-      { path: 'about', element: <About /> },
-      {
-        path: '/mentorship',
-        element: <ProtectedRoute />,
-        children: [
-          {
-            index: true,
-            element: <Mentorship />,
-          },
-        ],
-      },
-      // { path: 'mentorship', element: <Mentorship /> },
-      { path: 'crear-perfil', element: <CreatePerfil /> },
-      { path: 'UserPerfil', element: <UserProfilePage /> },
-      { path: 'challenge', element: <Challenge /> },
-      { path: 'perfil', element: <Perfil /> },
-    ],
+    element: <LandingLayout />,
+    children: [{ index: true, element: <Landing /> }],
   },
   { path: '/registro', element: <Register /> },
   { path: '/login', element: <Login /> },
 
-  // Rutas protegidas
+  // Rutas protegidas (requieren login)
   {
     path: '/dashboard',
     element: <ProtectedRoute />,
     children: [
       {
-        index: true,
-        element: <Perfil />,
+        element: <MainLayout />,
+        children: [
+          { index: true, element: <Home /> },
+          { path: 'about', element: <About /> },
+          { path: 'mentorship', element: <Mentorship /> },
+          { path: 'perfil', element: <Perfil /> },
+          { path: 'crear-perfil', element: <CreatePerfil /> },
+          { path: 'userperfil', element: <UserProfilePage /> },
+          { path: 'challenge', element: <Challenge /> },
+        ],
       },
     ],
   },

@@ -31,4 +31,6 @@ export interface UserProfileApi {
   experienceLevel: string
   technologies: string[]
   interests: string[]
+  objectives?: string
+  role?: string
 }

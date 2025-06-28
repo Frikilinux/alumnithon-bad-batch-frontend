@@ -4,7 +4,7 @@ import PerfilStats from '../features/profile/ProfileStats'
 import UnifiedFilters from '../shared/components/FilterComponent'
 import PerfilCardList from '../features/profile/ProfileCardList'
 import type { UserProfileFilter } from '../types/user'
-import { useFilteredProfiles } from '../hooks/profile/useFilteredUsertest'
+import { useFilteredProfiles } from '../hooks/profile/useFilteredProfile'
 
 const PerfilPage = () => {
   console.log('object')
