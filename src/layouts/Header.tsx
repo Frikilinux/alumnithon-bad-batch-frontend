@@ -1,10 +1,4 @@
-import {
-  IconCode,
-  IconUser,
-  IconSettings,
-  IconLogout,
-  IconId,
-} from '@tabler/icons-react'
+import { IconCode, IconSettings, IconLogout, IconId } from '@tabler/icons-react'
 import { useState, useRef, useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import ChatSidebar from '../features/menssage/ChatSidebar'

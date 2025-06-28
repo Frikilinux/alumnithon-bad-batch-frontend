@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import MentorshipCardList from '../features/mentorship/components/MentorshipCardList'
-import SearchFilters from '../features/mentorship/components/SearchFilter'
 import PageBanner from '../components/ui/PageBanner'
 import { IconUsersGroup } from '@tabler/icons-react'
 import PageStats from '../components/ui/PageStats'

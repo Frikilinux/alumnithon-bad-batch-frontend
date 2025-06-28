@@ -1,17 +1,18 @@
 import React from 'react'
+import type { UserProfile } from '../../types/user'
 
-type Profile = {
-  id: string
-  name: string
-  title: string
-  description: string
-  stack: string[]
-  interests: string[]
-  avatarUrl: string
-}
+// type Profile = {
+//   id: string
+//   name: string
+//   title: string
+//   description: string
+//   stack: string[]
+//   interests: string[]
+//   avatarUrl: string
+// }
 
 type Props = {
-  profile: Profile
+  profile: UserProfile
 }
 
 const tagColors: Record<string, string> = {
@@ -31,9 +32,11 @@ const ProfileCard: React.FC<Props> = ({ profile }) => {
     <div className='flex flex-col space-y-3 rounded-lg bg-white p-5 shadow-md'>
       <div className='flex items-center gap-4'>
         <img
-          src={profile.avatarUrl}
+          src={
+            profile.avatarUrl || `https://robohash.org/${profile.id}?set=set5`
+          }
           alt={profile.name}
-          className='h-12 w-12 rounded-full object-cover'
+          className='h-12 w-12 rounded-full border-2 border-gray-300 bg-blue-200 object-cover'
         />
         <div>
           <h3 className='text-lg font-bold'>{profile.name}</h3>
