@@ -51,11 +51,14 @@ const Mentorship = () => {
       <PageBanner {...bannerProps} />
       {/* <MentorshipHeader /> */}
       <PageStats stats={stats} />
-      <UnifiedFilters
-        context='mentorship'
-        options={options}
-        onApply={(newFilters) => setFilters(newFilters)}
-      />
+      {!isLoading && (
+        <UnifiedFilters
+          context='mentorship'
+          options={options}
+          onApply={(newFilters) => setFilters(newFilters)}
+        />
+      )}
+
       <MentorshipCardList mentorships={mentorships} isLoading={isLoading} />
     </div>
   )

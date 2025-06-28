@@ -40,8 +40,11 @@ export const useFilteredMentorship = (filters: MentorshipFilter) => {
     fetchProfiles()
   }, [])
 
-  const filtered = (filters: MentorshipFilter) => {
-    const mentorshipFilters = mentorships.filter((mentorship) => {
+  const applyFilters = (
+    mentorships: MentorshipResponse[],
+    filters: MentorshipFilter
+  ): MentorshipResponse[] => {
+    return mentorships.filter((mentorship) => {
       if (
         filters.requiredTechnologies &&
         filters.requiredTechnologies.length > 0 &&
@@ -53,13 +56,12 @@ export const useFilteredMentorship = (filters: MentorshipFilter) => {
 
       return true
     })
-
-    return mentorshipFilters.map(({ ...profile }) => profile)
   }
-  // const data = useMemo(() => mockBackendFetch(filters), [filters])
-  // const data = useMemo(() => useFilteredMentorship(filters), [filters])
-
-  const data = filtered(filters)
+  
+  const data = useMemo(
+    () => applyFilters(mentorships, filters),
+    [mentorships, filters]
+  )
 
   const options = useMemo(() => {
     const tech = new Set<string>()
@@ -71,7 +73,9 @@ export const useFilteredMentorship = (filters: MentorshipFilter) => {
     return {
       stack: Array.from(tech).sort(),
     }
-  }, [])
+  }, [mentorships])
+
+  console.log('options', options)
 
   return {
     data,
