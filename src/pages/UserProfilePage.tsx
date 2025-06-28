@@ -71,7 +71,7 @@ const UserProfilePage: React.FC = () => {
     interests: profile.interests || [],
     objective: profile.objectives || 'No especificado',
     experiencePercent: getExperiencePercent(profile.experienceLevel),
-    avatar: profile.avatarUrl || 'https://via.placeholder.com/150',
+    avatar: profile.avatarUrl || `https://robohash.org/${profile.id}?set=set5`,
   }
 
   return (

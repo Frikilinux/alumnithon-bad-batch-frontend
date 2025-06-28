@@ -1,22 +1,23 @@
 import Cookies from 'js-cookie'
+import { toast } from 'sonner'
 
 const onError400 = (_error: any) => {
-  alert('Error 400: Datos inválidos, revisa el formulario.')
+  toast.error('Error 400: Datos inválidos, revisa el formulario.')
 }
 
 const onError401 = (_error: any) => {
-  alert('Error 401: No autorizado. Por favor inicia sesión.')
+  toast.error('Error 401: No autorizado. Por favor inicia sesión.')
   Cookies.remove('token') // Eliminar token si no está autorizado
 }
 
 const onError403 = (_error: any) => {
-  alert(
+  toast.error(
     'Error 403: Acceso prohibido. No tienes permiso para realizar esta acción.'
   )
 }
 
 const onError404 = (_error: any) => {
-  alert('Error 404: Recurso no encontrado.')
+  toast.error('Error 404: Recurso no encontrado.')
 }
 
 const errorHandlers: Record<number, (error: any) => void> = {

@@ -1,9 +1,11 @@
 import { Outlet } from 'react-router'
 import Header from './Header'
+import { Toaster } from 'sonner'
 
 const MainLayout = () => {
   return (
     <div className='relative flex min-h-screen w-full flex-col'>
+      <Toaster richColors />
       <Header />
       <main className='flex grow flex-col'>
         <Outlet />

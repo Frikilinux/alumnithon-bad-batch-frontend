@@ -8,6 +8,8 @@ import {
 import { useState, useRef, useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import ChatSidebar from '../features/menssage/ChatSidebar'
+import { useAuthStore } from '../stores/authStore'
+import { toast } from 'sonner'
 
 const Logo = () => (
   <div className='flex items-center gap-2 text-2xl font-bold'>
@@ -52,38 +54,50 @@ const NavBar = () => {
   )
 }
 
-const UserMenu = ({ onLogout }: { onLogout: () => void }) => (
-  <div className='absolute top-12 right-0 z-50 w-48 rounded-md border border-gray-200 bg-white shadow-lg'>
-    <ul className='flex flex-col p-2 text-sm text-gray-800'>
-      <li>
-        <NavLink
-          to='/dashboard/userperfil'
-          className='flex items-center gap-2 rounded-md px-4 py-2 hover:bg-gray-100'>
-          <IconId size={16} /> Ver Perfil
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
-          to='/dashboard/configuracion'
-          className='flex items-center gap-2 rounded-md px-4 py-2 hover:bg-gray-100'>
-          <IconSettings size={16} /> Configuración
-        </NavLink>
-      </li>
-      <li>
-        <button
-          onClick={onLogout}
-          className='flex w-full items-center gap-2 rounded-md px-4 py-2 text-left hover:bg-gray-100'>
-          <IconLogout size={16} className='text-red-500' />
-          <span className='text-red-500'>Cerrar Sesión</span>
-        </button>
-      </li>
-    </ul>
-  </div>
-)
+const UserMenu = ({ onLogout }: { onLogout: () => void }) => {
+  const user = useAuthStore((state) => state.user)
+
+  return (
+    <div className='absolute top-12 right-0 z-50 w-48 rounded-md border border-gray-200 bg-white shadow-lg'>
+      <div className='flex flex-col items-center border-b border-gray-200'>
+        <p className='px-6 pt-2 font-bold text-gray-800'>
+          Hola {user?.firstName}
+        </p>
+        <p className='text-xs text-gray-400'>{user?.role}</p>
+      </div>
+
+      <ul className='flex flex-col p-2 text-sm text-gray-800'>
+        <li>
+          <NavLink
+            to='/dashboard/userperfil'
+            className='flex items-center gap-2 rounded-md px-4 py-2 hover:bg-gray-100'>
+            <IconId size={16} /> Ver Perfil
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            to='/dashboard/configuracion'
+            className='flex items-center gap-2 rounded-md px-4 py-2 hover:bg-gray-100'>
+            <IconSettings size={16} /> Configuración
+          </NavLink>
+        </li>
+        <li>
+          <button
+            onClick={onLogout}
+            className='flex w-full items-center gap-2 rounded-md px-4 py-2 text-left hover:bg-gray-100'>
+            <IconLogout size={16} className='text-red-500' />
+            <span className='text-red-500'>Cerrar Sesión</span>
+          </button>
+        </li>
+      </ul>
+    </div>
+  )
+}
 
 const UserButton = ({ onChatClick }: { onChatClick: () => void }) => {
   const [openMenu, setOpenMenu] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
+  const user = useAuthStore((state) => state.user)
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -131,10 +145,11 @@ const UserButton = ({ onChatClick }: { onChatClick: () => void }) => {
       </button>
       <button
         onClick={() => setOpenMenu((prev) => !prev)}
-        className='bg-card-background flex aspect-square h-9 w-auto items-center justify-center rounded-full border-2'>
-        <IconUser />
+        className='bg-card-background flex aspect-square h-9 w-auto items-center justify-center overflow-clip rounded-full border-2'>
+        <img src={`https://robohash.org/${user?.id}?set=set5`} alt='' />
+        {/* <IconUser /> */}
       </button>
-      {openMenu && <UserMenu onLogout={() => alert('Cerrar sesión')} />}
+      {openMenu && <UserMenu onLogout={() => toast.success('Cerrar sesión')} />}
     </div>
   )
 }

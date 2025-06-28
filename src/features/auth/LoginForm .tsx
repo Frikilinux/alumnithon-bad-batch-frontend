@@ -8,6 +8,7 @@ import FormButton from './components/FormButton'
 import { LoginSchema, type LoginSchemaType } from './schemas/loginSchema'
 
 import type { InputTypes } from '../../types/form'
+import { toast, Toaster } from 'sonner'
 
 const formFields: {
   label: string
@@ -37,12 +38,15 @@ const Login = () => {
       navigate('/dashboard')
       console.log('Login exitoso')
     } else {
+      // toast.error('Error al iniciar sesión. Por favor, inténtalo de nuevo.')
       console.error('Error en login:', result.message)
     }
   }
 
   return (
     <div className='flex min-h-screen w-full items-center justify-center bg-gray-900 p-4'>
+      <Toaster richColors />
+
       <div className='w-full max-w-md rounded-xl border border-gray-700 bg-gray-800 p-8 shadow-xl'>
         <div className='mb-10 text-center'>
           <h1 className='text-3xl font-light tracking-tight text-white'>
